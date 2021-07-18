@@ -1,0 +1,35 @@
+package schumi178.javaprograms.cheatbuster.gui;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import schumi178.javaprograms.cheatbuster.CheatBuster;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
+public class AboutScreen implements Initializable {
+
+    @FXML
+    public ImageView logo;
+
+    @FXML
+    public void openAttributeSite1() throws IOException, URISyntaxException {
+        CheatBuster.showWebsite("https://www.freepik.com/");
+    }
+
+    @FXML
+    public void openFlaticonSite() throws IOException, URISyntaxException {
+        CheatBuster.showWebsite("https://www.flaticon.com/");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/logo.png")));
+        logo.setImage(image);
+    }
+}
