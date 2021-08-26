@@ -6,8 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import schumi178.javaprograms.cheatbuster.CheatBuster;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -18,12 +16,12 @@ public class AboutScreen implements Initializable {
     public ImageView logo;
 
     @FXML
-    public void openAttributeSite1() throws IOException, URISyntaxException {
+    public void openAttributeSite1() {
         CheatBuster.showWebsite("https://www.freepik.com/");
     }
 
     @FXML
-    public void openFlaticonSite() throws IOException, URISyntaxException {
+    public void openFlaticonSite() {
         CheatBuster.showWebsite("https://www.flaticon.com/");
     }
 

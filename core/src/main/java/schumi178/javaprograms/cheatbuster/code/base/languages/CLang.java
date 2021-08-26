@@ -1,0 +1,46 @@
+package schumi178.javaprograms.cheatbuster.code.base.languages;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import schumi178.javaprograms.cheatbuster.code.CLexer;
+import schumi178.javaprograms.cheatbuster.code.CParser;
+import schumi178.javaprograms.cheatbuster.code.base.CompileReadyParser;
+import schumi178.javaprograms.cheatbuster.code.base.ProgrammingLanguage;
+import schumi178.javaprograms.cheatbuster.code.listeners.MethodVariableTypesAndCountDetector;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class CLang implements ProgrammingLanguage {
+    @Override
+    public Lexer getLexer(CharStream code) {
+        return new CLexer(code);
+    }
+
+    @Override
+    public CompileReadyParser getParser(TokenStream tokenStream) {
+        return new CParser(tokenStream);
+    }
+
+    @Override
+    public List<ParseTreeListener> getListeners() {
+        return List.of(new MethodVariableTypesAndCountDetector());
+    }
+
+    @Override
+    public int assess(List<ParseTreeListener> filledListeners) {
+        for(ParseTreeListener listener: filledListeners) {
+            if(listener instanceof MethodVariableTypesAndCountDetector) {
+                Map<String, Set<String>> variableTypes = ((MethodVariableTypesAndCountDetector) listener).getVariableTypes();
+                for(String string: variableTypes.keySet()) {
+                    System.out.println(string);
+                }
+            }
+        }
+        return 100;
+    }
+}

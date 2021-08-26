@@ -1,14 +1,13 @@
 package schumi178.javaprograms.cheatbuster;
 
-import com.sun.javafx.application.HostServicesDelegate;
 import javafx.application.Application;
-import javafx.fxml.FXML;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 public class CheatBuster extends Application {
 
-    private static HostServicesDelegate hostServices;
+    private static HostServices hostServices;
 
     public static void startApp(String[] args) {
         launch(args);
@@ -16,8 +15,7 @@ public class CheatBuster extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        hostServices = HostServicesDelegate.getInstance(this);
-
+        hostServices = getHostServices();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainScreen.fxml"));
         primaryStage = loader.load();
         primaryStage.show();

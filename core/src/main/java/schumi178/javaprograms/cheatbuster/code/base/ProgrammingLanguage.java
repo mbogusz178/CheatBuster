@@ -1,0 +1,19 @@
+package schumi178.javaprograms.cheatbuster.code.base;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import schumi178.javaprograms.cheatbuster.code.base.languages.CLang;
+
+import java.util.List;
+
+public interface ProgrammingLanguage {
+    Lexer getLexer(CharStream code);
+    CompileReadyParser getParser(TokenStream tokenStream);
+    List<ParseTreeListener> getListeners();
+    int assess(List<ParseTreeListener> filledListeners);
+    static ProgrammingLanguage getLanguage() {
+        return new CLang();
+    }
+}

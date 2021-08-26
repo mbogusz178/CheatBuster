@@ -9,16 +9,17 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import schumi178.javaprograms.cheatbuster.code.CLexer;
-import schumi178.javaprograms.cheatbuster.code.CParser;
-import schumi178.javaprograms.cheatbuster.code.MethodCountDetector;
+import schumi178.javaprograms.cheatbuster.code.base.CompileReadyParser;
+import schumi178.javaprograms.cheatbuster.code.base.ProgrammingLanguage;
 import schumi178.javaprograms.cheatbuster.file.StringParser;
 import schumi178.javaprograms.cheatbuster.filechooser.CFileChooserProvider;
 import schumi178.javaprograms.cheatbuster.filechooser.FileChooserProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class MainScreen {
@@ -73,14 +74,20 @@ public class MainScreen {
 
     @FXML
     public void compare() {
+        ProgrammingLanguage lang = ProgrammingLanguage.getLanguage();
         CharStream charStream = CharStreams.fromString(leftTextArea.getText());
-        Lexer lexer = new CLexer(charStream);
+        Lexer lexer = lang.getLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
-        CParser parser = new CParser(tokenStream);
-        ParseTree tree = parser.compilationUnit();
+        CompileReadyParser parser = lang.getParser(tokenStream);
+        if(!(parser instanceof Parser)) {
+            throw new ClassCastException("The parser must be an instance of Parser");
+        }
+        ParseTree tree = parser.walkTree();
         ParseTreeWalker walker = new ParseTreeWalker();
-        MethodCountDetector detector = new MethodCountDetector();
-        walker.walk(detector, tree);
-        rightTextArea.setText("Liczba metod w pliku: " + detector.getMethodCount());
+        List<ParseTreeListener> listeners = lang.getListeners();
+        listeners.forEach(listener -> walker.walk(listener, tree));
+        int result = lang.assess(listeners);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Twój wynik to " + result + "!", ButtonType.OK);
+        alert.showAndWait();
     }
 }
