@@ -2,7 +2,6 @@ package schumi178.javaprograms.cheatbuster.code.base.languages;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import schumi178.javaprograms.cheatbuster.code.CLexer;
@@ -32,13 +31,16 @@ public class CLang implements ProgrammingLanguage {
     }
 
     @Override
-    public int assess(List<ParseTreeListener> filledListeners) {
-        for(ParseTreeListener listener: filledListeners) {
+    public int assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond) {
+        for(ParseTreeListener listener: filledListenersFirst) {
             if(listener instanceof MethodVariableTypesAndCountDetector) {
-                Map<String, Set<String>> variableTypes = ((MethodVariableTypesAndCountDetector) listener).getVariableTypes();
+                MethodVariableTypesAndCountDetector castListener = (MethodVariableTypesAndCountDetector) listener;
+                Map<String, Set<String>> variableTypes = castListener.getVariableTypes();
+                String typedefs = castListener.getTypedefList();
                 for(String string: variableTypes.keySet()) {
                     System.out.println(string);
                 }
+                System.out.println(typedefs);
             }
         }
         return 100;

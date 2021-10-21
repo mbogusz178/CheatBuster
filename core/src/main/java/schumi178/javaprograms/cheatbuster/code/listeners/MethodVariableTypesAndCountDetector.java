@@ -3,19 +3,44 @@ package schumi178.javaprograms.cheatbuster.code.listeners;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import schumi178.javaprograms.cheatbuster.code.CBaseListener;
 import schumi178.javaprograms.cheatbuster.code.CParser.*;
+import schumi178.javaprograms.cheatbuster.kotlin.FunctionKt;
 import schumi178.javaprograms.cheatbuster.kotlin.GetTypedefKt;
 
 import java.util.*;
 
 public class MethodVariableTypesAndCountDetector extends CBaseListener {
 
-    private Map<String, Set<String>> variableTypes = new HashMap<>();
-    private Map<String, Integer> variableCounts = new HashMap<>();
+    private final Map<String, Set<String>> variableTypes = new HashMap<>();
+    private final Map<String, Integer> variableCounts = new HashMap<>();
 
-    private List<String> funcNameList = new ArrayList<>();
-    private List<String> typedefList = new ArrayList<>();
+    private final List<String> funcNameList = new ArrayList<>();
+    private final List<String> typedefList = new ArrayList<>();
 
     private String currentFuncName = "Outside function";
+
+    private void detectTypedefVariables(BlockItemListContext ctx) {
+        for(BlockItemContext item: ctx.blockItem()) {
+            BlockItemListContext innerBlock = FunctionKt.getFunctionBody(item);
+            if(innerBlock != null) {
+                detectTypedefVariables(innerBlock);
+                return;
+            }
+            String statementText = item.getText();
+            System.out.println(statementText);
+            int index = statementText.lastIndexOf('*');
+            if(index > 0) {
+
+            }
+        }
+    }
+
+    private void detectTypedefVariables(FunctionDefinitionContext ctx) {
+        BlockItemListContext functionBody = FunctionKt.getFunctionBody(ctx);
+        if(functionBody == null) { // prototyp funkcji
+            return;
+        }
+        detectTypedefVariables(functionBody);
+    }
 
     @Override
     public void enterFunctionDefinition(FunctionDefinitionContext ctx) {
@@ -33,6 +58,7 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
                                  .getText();
             funcNameList.add(currentFuncName);
             variableTypes.put(currentFuncName, new HashSet<>());
+            detectTypedefVariables(ctx);
             return;
         }
 
@@ -46,10 +72,15 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
         currentFuncName = identifier.getText();
         funcNameList.add(currentFuncName);
         variableTypes.put(currentFuncName, new HashSet<>());
+        detectTypedefVariables(ctx);
     }
 
     public Map<String, Set<String>> getVariableTypes() {
         return variableTypes;
+    }
+
+    public List<String> getFuncNameList() {
+        return funcNameList;
     }
 
     @Override
@@ -94,6 +125,38 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
 
         if(!typedef.equals("")) {
             typedefList.add(typedef);
+            return;
+        }
+
+        String typename = "";
+
+        DeclarationSpecifiersContext specifiers = ctx.declarationSpecifiers();
+        for(DeclarationSpecifierContext specifier: specifiers.declarationSpecifier()) {
+            if(specifier.typeSpecifier() != null) {
+                StructOrUnionSpecifierContext structContext = specifier.typeSpecifier().structOrUnionSpecifier();
+                if(structContext != null) {
+                    typename = structContext.Identifier().getText();
+                    break;
+                }
+                typename = specifier.getText();
+                break;
+            }
+        }
+
+        if(!typename.equals("")) {
+            InitDeclaratorListContext declarationList = ctx.initDeclaratorList();
+            if(declarationList == null) {
+                for(DeclarationSpecifierContext specifier: specifiers.declarationSpecifier()) {
+                    TypedefNameContext typedefCtx = specifier.typeSpecifier().typedefName();
+                    if(typedefCtx != null && !typedefCtx.getText().equals(typename))
+                        System.out.println(typename + " " + typedefCtx.getText());
+                }
+                return;
+            }
+            List<InitDeclaratorContext> declarations = declarationList.initDeclarator();
+            for(InitDeclaratorContext declaration: declarations) {
+                System.out.println(typename + " " + declaration.declarator().getText());
+            }
         }
     }
 }

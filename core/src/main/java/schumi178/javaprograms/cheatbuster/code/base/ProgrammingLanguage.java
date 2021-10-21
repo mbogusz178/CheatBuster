@@ -12,7 +12,7 @@ public interface ProgrammingLanguage {
     Lexer getLexer(CharStream code);
     CompileReadyParser getParser(TokenStream tokenStream);
     List<ParseTreeListener> getListeners();
-    int assess(List<ParseTreeListener> filledListeners);
+    int assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond);
     static ProgrammingLanguage getLanguage() {
         return new CLang();
     }

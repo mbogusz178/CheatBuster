@@ -73,8 +73,20 @@ public class MainScreen {
     }
 
     @FXML
+    private void onOptionsClick() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/optionsScreen.fxml"));
+        try {
+            Stage stage = loader.load();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void compare() {
         ProgrammingLanguage lang = ProgrammingLanguage.getLanguage();
+
         CharStream charStream = CharStreams.fromString(leftTextArea.getText());
         Lexer lexer = lang.getLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
@@ -86,7 +98,17 @@ public class MainScreen {
         ParseTreeWalker walker = new ParseTreeWalker();
         List<ParseTreeListener> listeners = lang.getListeners();
         listeners.forEach(listener -> walker.walk(listener, tree));
-        int result = lang.assess(listeners);
+
+        CharStream charStream1 = CharStreams.fromString(rightTextArea.getText());
+        Lexer lexer1 = lang.getLexer(charStream1);
+        TokenStream tokenStream1 = new CommonTokenStream(lexer1);
+        CompileReadyParser parser1 = lang.getParser(tokenStream1);
+        ParseTree tree1 = parser1.walkTree();
+        ParseTreeWalker walker1 = new ParseTreeWalker();
+        List<ParseTreeListener> listeners1 = lang.getListeners();
+        listeners1.forEach(listener -> walker1.walk(listener, tree1));
+
+        int result = lang.assess(listeners, listeners1);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Twój wynik to " + result + "!", ButtonType.OK);
         alert.showAndWait();
     }
