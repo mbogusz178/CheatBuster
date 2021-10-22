@@ -13,14 +13,18 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import schumi178.javaprograms.cheatbuster.code.base.CompileReadyParser;
 import schumi178.javaprograms.cheatbuster.code.base.ProgrammingLanguage;
+import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
 import schumi178.javaprograms.cheatbuster.file.StringParser;
 import schumi178.javaprograms.cheatbuster.filechooser.CFileChooserProvider;
 import schumi178.javaprograms.cheatbuster.filechooser.FileChooserProvider;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class MainScreen {
 
@@ -88,6 +92,25 @@ public class MainScreen {
         ProgrammingLanguage lang = ProgrammingLanguage.getLanguage();
 
         CharStream charStream = CharStreams.fromString(leftTextArea.getText());
+
+        List<String> includePaths = new ArrayList<>();
+        try {
+            Scanner sc = new Scanner(new File("config/include.cfg"));
+            while(sc.hasNextLine()) {
+                includePaths.add(sc.nextLine());
+            }
+        } catch (FileNotFoundException ignored) {
+
+        }
+        try {
+            System.out.println(lang.preprocess(leftTextArea.getText(), includePaths));
+        } catch (DoesNotCompileException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setTitle("Błąd");
+            alert.setHeaderText("Błąd preprocesora");
+            alert.showAndWait();
+            return;
+        }
         Lexer lexer = lang.getLexer(charStream);
         TokenStream tokenStream = new CommonTokenStream(lexer);
         CompileReadyParser parser = lang.getParser(tokenStream);

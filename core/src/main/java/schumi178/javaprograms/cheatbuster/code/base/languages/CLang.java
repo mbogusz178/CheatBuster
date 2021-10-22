@@ -8,11 +8,12 @@ import schumi178.javaprograms.cheatbuster.code.CLexer;
 import schumi178.javaprograms.cheatbuster.code.CParser;
 import schumi178.javaprograms.cheatbuster.code.base.CompileReadyParser;
 import schumi178.javaprograms.cheatbuster.code.base.ProgrammingLanguage;
+import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
 import schumi178.javaprograms.cheatbuster.code.listeners.MethodVariableTypesAndCountDetector;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class CLang implements ProgrammingLanguage {
     @Override
@@ -28,6 +29,157 @@ public class CLang implements ProgrammingLanguage {
     @Override
     public List<ParseTreeListener> getListeners() {
         return List.of(new MethodVariableTypesAndCountDetector());
+    }
+
+    private void processDefine(String line, StringBuilder result, List<String> defs) throws DoesNotCompileException {
+//        int bracketLevel = 0;
+//        boolean nameDefined = false;
+//        StringBuilder name = new StringBuilder();
+//        for(int i = 0; i < line.length(); i++) {
+//            if(line.charAt(i) == '(') {
+//                nameDefined = true;
+//                bracketLevel++;
+//            } else if(line.charAt(i) == ')') {
+//                bracketLevel--;
+//                if(bracketLevel < 0) throw new DoesNotCompileException();
+//            } else if(line.charAt(i) == ' ') {
+//                nameDefined = true;
+//            } else if(bracketLevel == 0 && !nameDefined) {
+//                name.append(line.charAt(i));
+//            }
+//        }
+    }
+
+    private static String swapStringLine(String originalString, String stringToBeInserted, int index) {
+
+        StringTokenizer tokenizer = new StringTokenizer(originalString, "\n");
+        StringBuilder newString = new StringBuilder();
+        int count = 0;
+        while(tokenizer.hasMoreTokens()) {
+            String nextString = tokenizer.nextToken();
+            if(count == index) {
+                newString.append(stringToBeInserted).append("\n");
+            } else {
+                newString.append(nextString).append("\n");
+            }
+            count++;
+        }
+
+        return newString.toString();
+    }
+
+    private static boolean isInclude(String line) {
+        if(line.startsWith("#") && line.length() > 1) {
+            for(int i = 1; i < line.length(); i++) {
+                if(!Character.isWhitespace(line.charAt(i))) {
+                    return line.substring(i).startsWith("include ");
+                }
+            }
+        }
+        return false;
+    }
+
+    private String processInclude(String fileName, List<String> includePaths, List<String> defines, List<String> typedefs, List<File> filesIncluded) throws DoesNotCompileException {
+        boolean fileFound = false;
+        File file = null;
+        for(String path: includePaths) {
+            file = new File(path + (path.endsWith("/") ? "" : "/") + fileName);
+            if(file.exists()) {
+                fileFound = true;
+                break;
+            }
+        }
+        if(!fileFound) {
+            throw new DoesNotCompileException("Nieznany plik: " + fileName);
+        }
+        if(filesIncluded.contains(file)) {
+            return "";
+        }
+        filesIncluded.add(file);
+        StringBuilder builder = new StringBuilder();
+        try {
+            Scanner sc = new Scanner(file);
+            boolean parsingTypedef = false;
+            boolean parsingDefine = false;
+            int bracketLevel = 0;
+            int count = 0;
+            while(sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+                if(parsingTypedef) {
+                    long openingBracketCount = line.chars().filter(c -> c == '{').count();
+                    bracketLevel += openingBracketCount;
+                    long closingBracketCount = line.chars().filter(c -> c == '}').count();
+                    bracketLevel -= closingBracketCount;
+                    typedefs.add(line);
+                    if(line.endsWith(";") && bracketLevel < 1) {
+                        parsingTypedef = false;
+                    }
+                    continue;
+                } else if(parsingDefine) {
+                    defines.add(line);
+                    if(!line.endsWith("\\")) {
+                        parsingDefine = false;
+                    }
+                } else if(line.startsWith("typedef ")) {
+                    long openingBracketCount = line.chars().filter(c -> c == '{').count();
+                    bracketLevel += openingBracketCount;
+                    long closingBracketCount = line.chars().filter(c -> c == '}').count();
+                    bracketLevel -= closingBracketCount;
+                    parsingTypedef = true;
+                    typedefs.add(line);
+                    if(line.endsWith(";") && bracketLevel < 1) {
+                        parsingTypedef = false;
+                    }
+                } else if(line.startsWith("#define ")) {
+                    parsingDefine = true;
+                    defines.add(line);
+                    if(!line.endsWith("\\")) {
+                        parsingDefine = false;
+                    }
+                } else if(isInclude(line)) {
+                    String includedDefinesAndTypedefs;
+                    if(line.contains("<") && line.contains(">")) {
+                        includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('<') + 1, line.indexOf('>')), includePaths, defines, typedefs, filesIncluded);
+                    } else if(line.chars().filter(c -> c == '\"').count() == 2) {
+                        includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('\"') + 1, line.substring(line.indexOf('\"') + 1).indexOf('\"') + line.indexOf('\"') + 1), includePaths, defines, typedefs, filesIncluded);
+                    } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (plik " + fileName + ", wiersz " + count + ")");
+                    builder.append(includedDefinesAndTypedefs);
+                }
+                count++;
+            }
+        } catch (FileNotFoundException e) {
+            throw new DoesNotCompileException("Nieznany plik: " + fileName);
+        }
+        for(String define: defines) {
+            builder.append(define).append("\n");
+        }
+        for(String typedef: typedefs) {
+            builder.append(typedef).append("\n");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public String preprocess(String code, List<String> includePaths) throws DoesNotCompileException {
+        List<String> defs = new ArrayList<>();
+        StringBuilder result = new StringBuilder();
+        List<File> filesIncluded = new ArrayList<>();
+        StringTokenizer tokenizer = new StringTokenizer(code, "\n");
+        int count = 0;
+        while(tokenizer.hasMoreTokens()) {
+            String line = tokenizer.nextToken().trim();
+            if(isInclude(line)) {
+                String includedDefinesAndTypedefs;
+                if(line.contains("<") && line.contains(">")) {
+                    includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('<') + 1, line.indexOf('>')), includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
+                } else if(line.chars().filter(c -> c == '\"').count() == 2) {
+                    includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('\"') + 1, line.indexOf('\"', line.indexOf('\"' + 1))), includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
+                } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
+                code = swapStringLine(code, includedDefinesAndTypedefs, count);
+            }
+            count++;
+        }
+        return code;
     }
 
     @Override
