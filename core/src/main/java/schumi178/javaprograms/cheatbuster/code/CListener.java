@@ -1,5 +1,4 @@
 package schumi178.javaprograms.cheatbuster.code;// Generated from C.g4 by ANTLR 4.7.1
-
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,6 +6,16 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link CParser}.
  */
 public interface CListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by {@link CParser#compilationUnit}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompilationUnit(CParser.CompilationUnitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#compilationUnit}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompilationUnit(CParser.CompilationUnitContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#primaryExpression}.
 	 * @param ctx the parse tree
@@ -247,6 +256,116 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConstantExpression(CParser.ConstantExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#primitiveType}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitiveType(CParser.PrimitiveTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#primitiveType}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitiveType(CParser.PrimitiveTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#signedOrUnsigned}.
+	 * @param ctx the parse tree
+	 */
+	void enterSignedOrUnsigned(CParser.SignedOrUnsignedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#signedOrUnsigned}.
+	 * @param ctx the parse tree
+	 */
+	void exitSignedOrUnsigned(CParser.SignedOrUnsignedContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#arrayDimension}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayDimension(CParser.ArrayDimensionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#arrayDimension}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayDimension(CParser.ArrayDimensionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#structFieldDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructFieldDeclaration(CParser.StructFieldDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#structFieldDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructFieldDeclaration(CParser.StructFieldDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableName(CParser.VariableNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#variableName}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableName(CParser.VariableNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(CParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(CParser.FunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#varInitValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarInitValue(CParser.VarInitValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#varInitValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarInitValue(CParser.VarInitValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#varInitDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarInitDeclaration(CParser.VarInitDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#varInitDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarInitDeclaration(CParser.VarInitDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#varType}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarType(CParser.VarTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#varType}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarType(CParser.VarTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#varInitDeclarationList}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarInitDeclarationList(CParser.VarInitDeclarationListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#varInitDeclarationList}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarInitDeclarationList(CParser.VarInitDeclarationListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#typedefDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypedefDeclaration(CParser.TypedefDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#typedefDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypedefDeclaration(CParser.TypedefDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#declaration}.
 	 * @param ctx the parse tree
@@ -828,16 +947,6 @@ public interface CListener extends ParseTreeListener {
 	 */
 	void exitJumpStatement(CParser.JumpStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CParser#compilationUnit}.
-	 * @param ctx the parse tree
-	 */
-	void enterCompilationUnit(CParser.CompilationUnitContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CParser#compilationUnit}.
-	 * @param ctx the parse tree
-	 */
-	void exitCompilationUnit(CParser.CompilationUnitContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CParser#translationUnit}.
 	 * @param ctx the parse tree
 	 */
@@ -877,4 +986,44 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclarationList(CParser.DeclarationListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#preprocessorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterPreprocessorDeclaration(CParser.PreprocessorDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#preprocessorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitPreprocessorDeclaration(CParser.PreprocessorDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#includeDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterIncludeDeclaration(CParser.IncludeDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#includeDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitIncludeDeclaration(CParser.IncludeDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#defineDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefineDeclaration(CParser.DefineDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#defineDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefineDeclaration(CParser.DefineDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void enterComment(CParser.CommentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void exitComment(CParser.CommentContext ctx);
 }

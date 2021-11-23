@@ -4,15 +4,19 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import schumi178.javaprograms.cheatbuster.code.AssessmentResult;
 import schumi178.javaprograms.cheatbuster.code.CLexer;
 import schumi178.javaprograms.cheatbuster.code.CParser;
 import schumi178.javaprograms.cheatbuster.code.base.CompileReadyParser;
 import schumi178.javaprograms.cheatbuster.code.base.ProgrammingLanguage;
+import schumi178.javaprograms.cheatbuster.code.base.Assessable;
 import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
-import schumi178.javaprograms.cheatbuster.code.listeners.MethodVariableTypesAndCountDetector;
+import schumi178.javaprograms.cheatbuster.code.listeners.*;
+import schumi178.javaprograms.cheatbuster.util.Result;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class CLang implements ProgrammingLanguage {
@@ -28,7 +32,7 @@ public class CLang implements ProgrammingLanguage {
 
     @Override
     public List<ParseTreeListener> getListeners() {
-        return List.of(new MethodVariableTypesAndCountDetector());
+        return List.of(new MethodCountDetector(), new MethodVariableTypesAndCountDetector(), new MethodVariableNamesDetector(), new JavaDiffUtilsDetector());
     }
 
     private void processDefine(String line, StringBuilder result, List<String> defs) throws DoesNotCompileException {
@@ -50,19 +54,17 @@ public class CLang implements ProgrammingLanguage {
 //        }
     }
 
-    private static String swapStringLine(String originalString, String stringToBeInserted, int index) {
+    private static String swapStringLine(String originalString, String lineToBeSwapped, String stringToBeInserted) {
 
         StringTokenizer tokenizer = new StringTokenizer(originalString, "\n");
         StringBuilder newString = new StringBuilder();
-        int count = 0;
         while(tokenizer.hasMoreTokens()) {
             String nextString = tokenizer.nextToken();
-            if(count == index) {
+            if(nextString.trim().equals(lineToBeSwapped)) {
                 newString.append(stringToBeInserted).append("\n");
             } else {
                 newString.append(nextString).append("\n");
             }
-            count++;
         }
 
         return newString.toString();
@@ -79,7 +81,7 @@ public class CLang implements ProgrammingLanguage {
         return false;
     }
 
-    private String processInclude(String fileName, List<String> includePaths, List<String> defines, List<String> typedefs, List<File> filesIncluded) throws DoesNotCompileException {
+    private String processInclude(String fileName, List<String> includePaths, List<String> defines, List<String> typedefs, List<String> filesIncluded) throws DoesNotCompileException {
         boolean fileFound = false;
         File file = null;
         for(String path: includePaths) {
@@ -92,15 +94,14 @@ public class CLang implements ProgrammingLanguage {
         if(!fileFound) {
             throw new DoesNotCompileException("Nieznany plik: " + fileName);
         }
-        if(filesIncluded.contains(file)) {
+        if(filesIncluded.contains(fileName)) {
             return "";
         }
-        filesIncluded.add(file);
+        filesIncluded.add(fileName);
         StringBuilder builder = new StringBuilder();
         try {
             Scanner sc = new Scanner(file);
             boolean parsingTypedef = false;
-            boolean parsingDefine = false;
             int bracketLevel = 0;
             int count = 0;
             while(sc.hasNextLine()) {
@@ -115,11 +116,6 @@ public class CLang implements ProgrammingLanguage {
                         parsingTypedef = false;
                     }
                     continue;
-                } else if(parsingDefine) {
-                    defines.add(line);
-                    if(!line.endsWith("\\")) {
-                        parsingDefine = false;
-                    }
                 } else if(line.startsWith("typedef ")) {
                     long openingBracketCount = line.chars().filter(c -> c == '{').count();
                     bracketLevel += openingBracketCount;
@@ -129,12 +125,6 @@ public class CLang implements ProgrammingLanguage {
                     typedefs.add(line);
                     if(line.endsWith(";") && bracketLevel < 1) {
                         parsingTypedef = false;
-                    }
-                } else if(line.startsWith("#define ")) {
-                    parsingDefine = true;
-                    defines.add(line);
-                    if(!line.endsWith("\\")) {
-                        parsingDefine = false;
                     }
                 } else if(isInclude(line)) {
                     String includedDefinesAndTypedefs;
@@ -150,9 +140,6 @@ public class CLang implements ProgrammingLanguage {
         } catch (FileNotFoundException e) {
             throw new DoesNotCompileException("Nieznany plik: " + fileName);
         }
-        for(String define: defines) {
-            builder.append(define).append("\n");
-        }
         for(String typedef: typedefs) {
             builder.append(typedef).append("\n");
         }
@@ -163,7 +150,7 @@ public class CLang implements ProgrammingLanguage {
     public String preprocess(String code, List<String> includePaths) throws DoesNotCompileException {
         List<String> defs = new ArrayList<>();
         StringBuilder result = new StringBuilder();
-        List<File> filesIncluded = new ArrayList<>();
+        List<String> filesIncluded = new ArrayList<>();
         StringTokenizer tokenizer = new StringTokenizer(code, "\n");
         int count = 0;
         while(tokenizer.hasMoreTokens()) {
@@ -175,26 +162,49 @@ public class CLang implements ProgrammingLanguage {
                 } else if(line.chars().filter(c -> c == '\"').count() == 2) {
                     includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('\"') + 1, line.indexOf('\"', line.indexOf('\"' + 1))), includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
                 } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
-                code = swapStringLine(code, includedDefinesAndTypedefs, count);
+                code = swapStringLine(code, line, includedDefinesAndTypedefs);
             }
             count++;
+        }
+        if(filesIncluded.contains("sys/cdefs.h") || filesIncluded.contains("cdefs.h")) {
+            code = code.replaceAll("__END_DECLS", "");
+        }
+        File file = new File("test.c");
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            writer.write(code);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return code;
     }
 
     @Override
-    public int assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond) {
+    public AssessmentResult assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond) {
+        List<Assessable> resultListeners = new ArrayList<>();
+        List<Double> results = new ArrayList<>();
+        List<Result> resultListFirst = new ArrayList<>();
         for(ParseTreeListener listener: filledListenersFirst) {
-            if(listener instanceof MethodVariableTypesAndCountDetector) {
-                MethodVariableTypesAndCountDetector castListener = (MethodVariableTypesAndCountDetector) listener;
-                Map<String, Set<String>> variableTypes = castListener.getVariableTypes();
-                String typedefs = castListener.getTypedefList();
-                for(String string: variableTypes.keySet()) {
-                    System.out.println(string);
-                }
-                System.out.println(typedefs);
+            if(listener instanceof Assessable) {
+                Assessable provider = (Assessable) listener;
+                resultListFirst.add(provider.getResult());
             }
         }
-        return 100;
+        int count = 0;
+        int finalResult = 0;
+        int weightSum = 0;
+        for(ParseTreeListener listener: filledListenersSecond) {
+            if(listener instanceof Assessable) {
+                Assessable provider = (Assessable) listener;
+                double currentAssessment = provider.assess(resultListFirst.get(count));
+                finalResult += currentAssessment * provider.getWeight();
+                weightSum += provider.getWeight();
+                resultListeners.add(provider);
+                results.add(currentAssessment);
+                count++;
+            }
+        }
+        return new AssessmentResult(resultListeners, results,finalResult / weightSum);
     }
 }

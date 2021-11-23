@@ -3,20 +3,35 @@ package schumi178.javaprograms.cheatbuster.code.listeners;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import schumi178.javaprograms.cheatbuster.code.CBaseListener;
 import schumi178.javaprograms.cheatbuster.code.CParser.*;
+import schumi178.javaprograms.cheatbuster.code.base.Assessable;
 import schumi178.javaprograms.cheatbuster.kotlin.FunctionKt;
-import schumi178.javaprograms.cheatbuster.kotlin.GetTypedefKt;
+import schumi178.javaprograms.cheatbuster.kotlin.UtilKt;
+import schumi178.javaprograms.cheatbuster.util.DoubleWrapper;
+import schumi178.javaprograms.cheatbuster.util.Result;
 
 import java.util.*;
 
-public class MethodVariableTypesAndCountDetector extends CBaseListener {
+public class MethodVariableTypesAndCountDetector extends CBaseListener implements Assessable {
 
     private final Map<String, Set<String>> variableTypes = new HashMap<>();
     private final Map<String, Integer> variableCounts = new HashMap<>();
 
     private final List<String> funcNameList = new ArrayList<>();
-    private final List<String> typedefList = new ArrayList<>();
+    private final Set<String> typedefList = new HashSet<>();
+
+    private double result;
+    private double resultOther;
 
     private String currentFuncName = "Outside function";
+
+    public MethodVariableTypesAndCountDetector() {
+        funcNameList.add("Outside function");
+        variableTypes.put("Outside function", new HashSet<>());
+    }
+
+    public Map<String, Integer> getVariableCounts() {
+        return variableCounts;
+    }
 
     private void detectTypedefVariables(BlockItemListContext ctx) {
         for(BlockItemContext item: ctx.blockItem()) {
@@ -26,7 +41,7 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
                 return;
             }
             String statementText = item.getText();
-            System.out.println(statementText);
+//            System.out.println(statementText);
             int index = statementText.lastIndexOf('*');
             if(index > 0) {
 
@@ -43,8 +58,40 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
     }
 
     @Override
+    public void enterTypedefDeclaration(TypedefDeclarationContext ctx) {
+        typedefList.add(ctx.typedefName().getText());
+    }
+
+    @Override
+    public void enterMultiplicativeExpression(MultiplicativeExpressionContext ctx) {
+        String typeName = ctx.castExpression(0).getText();
+//        System.out.println(typeName);
+        if(typedefList.contains(typeName)) {
+            CastExpressionContext cast = ctx.castExpression(1);
+            if(cast != null) {
+                String secondOperand = UtilKt.getSecondOperand(cast);
+                if (!secondOperand.isEmpty()) {
+                    Set<String> currentFuncTypes = variableTypes.get(currentFuncName);
+                    if (currentFuncTypes != null) {
+                        String type = typeName + "*";
+                        variableTypes.get(currentFuncName).add(type);
+                        if(!variableCounts.containsKey(type)) {
+                            variableCounts.put(type, 0);
+                        }
+                        int count = variableCounts.get(type);
+                        variableCounts.remove(type);
+                        variableCounts.put(type, count + 1);
+//                        System.out.println(currentFuncName + ": " + typeName + " *" + secondOperand);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void enterFunctionDefinition(FunctionDefinitionContext ctx) {
         DirectDeclaratorContext directDeclarator = ctx.declarator().directDeclarator();
+        if(directDeclarator == null) return;
 
         TerminalNode identifier = directDeclarator.Identifier();
 
@@ -66,6 +113,9 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
             identifier = directDeclarator.Identifier();
             if (identifier == null) {
                 directDeclarator = directDeclarator.directDeclarator();
+                if(directDeclarator == null) {
+                    return;
+                }
             }
         }
 
@@ -88,6 +138,24 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
         currentFuncName = "Outside function";
     }
 
+    @Override
+    public void enterVarInitDeclarationList(VarInitDeclarationListContext ctx) {
+        for(VarInitDeclarationContext varInitDeclaration: ctx.varInitDeclaration()) {
+            String type = ctx.varType().getText() + UtilKt.getPointer(varInitDeclaration);
+            if(varInitDeclaration.arrayDimension() != null) {
+                type += "[]".repeat(varInitDeclaration.arrayDimension().size());
+            }
+            variableTypes.get(currentFuncName).add(type);
+            if(!variableCounts.containsKey(type)) {
+                variableCounts.put(type, 0);
+            }
+            int count = variableCounts.get(type);
+            variableCounts.remove(type);
+            variableCounts.put(type, count + 1);
+//            System.out.println(currentFuncName + ": " + ctx.varType().getText() + UtilKt.getPointer(varInitDeclaration) + " " + varInitDeclaration.variableName().getText());
+        }
+    }
+
     public String getTypedefList() {
         StringBuilder builder = new StringBuilder();
         for(String s: typedefList) {
@@ -96,67 +164,44 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
         return builder.toString();
     }
 
-    public String getVariableTypesList() {
-        StringBuilder builder = new StringBuilder();
-        for(var entry: variableTypes.entrySet()) {
-            builder.append(entry.getKey()).append(": ");
-            for(String type: entry.getValue()) {
-                builder.append(type).append(", ");
-            }
-            builder = new StringBuilder(builder.substring(0, builder.length() - 2));
-            builder.append("\n");
-        }
-        return builder.toString();
+    @Override
+    public String getName() {
+        return "Typy i liczba zmiennych";
     }
 
     @Override
-    public void enterTypeSpecifier(TypeSpecifierContext ctx) {
-        Set<String> currentFuncTypes = variableTypes.get(currentFuncName);
-        if (currentFuncTypes == null) return;
-
-        currentFuncTypes.add(ctx.getText());
+    public String resultToString() {
+        return "Wynik obliczany jest, mnożąc liczbę typów w kodzie przez 1.5, a następnie dodając do wyniku całkowitą liczbę zmiennych pomnożoną przez 3.0.\n" +
+                "Wynik po lewej: " + resultOther + "\n" +
+                "Wynik po prawej: " + result + "\n";
     }
 
     @Override
-    public void enterDeclaration(DeclarationContext ctx) {
-        // wykrywanie typedefów
-
-        String typedef = GetTypedefKt.getTypedef(ctx);
-
-        if(!typedef.equals("")) {
-            typedefList.add(typedef);
-            return;
+    public Result getResult() {
+        int typeCount = variableCounts.size();
+        int totalVariableCount = 0;
+        for(int typeVariables: variableCounts.values()) {
+            totalVariableCount += typeVariables;
         }
+        result = typeCount * 1.5 + totalVariableCount * 3.0;
+        return new DoubleWrapper(result);
+    }
 
-        String typename = "";
+    @Override
+    public double getWeight() {
+        return 4;
+    }
 
-        DeclarationSpecifiersContext specifiers = ctx.declarationSpecifiers();
-        for(DeclarationSpecifierContext specifier: specifiers.declarationSpecifier()) {
-            if(specifier.typeSpecifier() != null) {
-                StructOrUnionSpecifierContext structContext = specifier.typeSpecifier().structOrUnionSpecifier();
-                if(structContext != null) {
-                    typename = structContext.Identifier().getText();
-                    break;
-                }
-                typename = specifier.getText();
-                break;
-            }
+    @Override
+    public double assess(Result otherResult) {
+        double thisResult = (double)getResult().getValue();
+        double otherResultCast = (double)otherResult.getValue();
+        resultOther = otherResultCast;
+        double relative = thisResult < otherResultCast ? thisResult / otherResultCast : otherResultCast / thisResult;
+        System.out.println(relative * 100);
+        for(String typedef: typedefList) {
+            System.out.println(typedef);
         }
-
-        if(!typename.equals("")) {
-            InitDeclaratorListContext declarationList = ctx.initDeclaratorList();
-            if(declarationList == null) {
-                for(DeclarationSpecifierContext specifier: specifiers.declarationSpecifier()) {
-                    TypedefNameContext typedefCtx = specifier.typeSpecifier().typedefName();
-                    if(typedefCtx != null && !typedefCtx.getText().equals(typename))
-                        System.out.println(typename + " " + typedefCtx.getText());
-                }
-                return;
-            }
-            List<InitDeclaratorContext> declarations = declarationList.initDeclarator();
-            for(InitDeclaratorContext declaration: declarations) {
-                System.out.println(typename + " " + declaration.declarator().getText());
-            }
-        }
+        return relative * 100;
     }
 }

@@ -27,6 +27,9 @@
 /** C 2011 grammar built from the C11 Spec */
 grammar C;
 
+compilationUnit
+    :   translationUnit? EOF
+    ;
 
 primaryExpression
     :   Identifier
@@ -149,9 +152,81 @@ constantExpression
     :   conditionalExpression
     ;
 
+primitiveType
+    :   'char'
+    |   'short'
+    |   'int'
+    |   'long'
+    |   'long' 'long'
+    |   'long' 'long' 'int'
+    |   'float'
+    |   'double'
+    |   'bool'
+    ;
+
+signedOrUnsigned
+    :   'unsigned'
+    |   'signed'
+    ;
+
+arrayDimension
+    :   '[' Identifier ']'
+    |   '[' Constant ']'
+    |   '[' ~(']')* ']'
+    |   '[' ']'
+    ;
+
+structFieldDeclaration
+    :   primitiveType pointer? Identifier ';'
+    |   Identifier pointer? Identifier arrayDimension+ ';'
+    |   Identifier pointer? Identifier ';'
+    |   'struct' Identifier pointer? Identifier ';'
+    |   preprocessorDeclaration
+    ;
+
+variableName
+    :   Identifier
+    ;
+
+functionCall
+    :   Identifier '(' Identifier ')'
+    ;
+
+varInitValue
+    :   Identifier
+    |   Constant
+    |   StringLiteral
+    |   functionCall
+    ;
+
+varInitDeclaration
+    :   pointer? variableName arrayDimension* ('=' varInitValue)?
+    ;
+
+varType
+    :   primitiveType
+    |   Identifier
+    |   'struct' Identifier
+    ;
+
+varInitDeclarationList
+    :   varType varInitDeclaration (',' varInitDeclaration)* ';'
+    ;
+
+typedefDeclaration
+    :   'typedef' Identifier pointer? typedefName ';'
+    |   'typedef' signedOrUnsigned primitiveType pointer? typedefName ';'
+    |   'typedef' 'struct' Identifier? '{' structFieldDeclaration+ '}' pointer? typedefName ';'
+    |   'typedef' 'struct' Identifier pointer? typedefName ';'
+    ;
+
 declaration
-    :   declarationSpecifiers initDeclaratorList? ';'
+    :   typedefDeclaration
+    |   varInitDeclarationList
+    |   declarationSpecifiers initDeclaratorList? ';'
     |   staticAssertDeclaration
+    |   preprocessorDeclaration
+    |   comment
     ;
 
 declarationSpecifiers
@@ -469,10 +544,6 @@ jumpStatement
     |   'goto' unaryExpression // GCC extension
     )
     ';'
-    ;
-
-compilationUnit
-    :   translationUnit? EOF
     ;
 
 translationUnit
@@ -884,4 +955,73 @@ LineComment
     :   '//' ~[\r\n]*
         -> skip
     ;
+
+IncludeBlock
+ :   '#' Whitespace? 'include' ~[\r\n]*
+ ;
+
+DefineStart
+:     '#' Whitespace? 'define'
+;
+
+DefineBlock
+ :   DefineStart (~[\\\r\n] | '\\\\' '\r'? '\n' | '\\'. )*
+ ;
+
+Ifdef
+    :   '#' Whitespace? 'ifdef' ~[\r\n]*
+    ;
+
+PreprocElse
+    :   '#' Whitespace? 'else' ~[\r\n]*
+    ;
+
+Endif
+    :   '#' Whitespace? 'endif' ~[\r\n]*
+    ;
+
+Undef
+    :   '#' Whitespace? 'undef' ~[\r\n]*
+    ;
+
+PreprocIf
+    :   '#' Whitespace? 'if' ~[\r\n]*
+    ;
+
+Elif
+    :   '#' Whitespace? 'elif' ~[\r\n]*
+    ;
+
+MultiDefine
+:   DefineStart MultiDefineBody
+;
+
+MultiDefineBody
+:   [\\] [\r\n]+ MultiDefineBody
+|   ~[\r\n]
+;
+
+preprocessorDeclaration
+:   includeDeclaration
+|   defineDeclaration
+|   Ifdef
+|   PreprocElse
+|   Endif
+|   Undef
+|   PreprocIf
+|   Elif
+;
+
+includeDeclaration
+:   IncludeBlock
+;
+
+defineDeclaration
+:   DefineBlock | MultiDefine
+;
+
+comment
+:   BlockComment
+|   LineComment
+;
 
