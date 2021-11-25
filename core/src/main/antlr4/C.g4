@@ -164,6 +164,10 @@ primitiveType
     |   'bool'
     ;
 
+primitiveSignedOrUnsignedType
+    :   signedOrUnsigned? primitiveType
+    ;
+
 signedOrUnsigned
     :   'unsigned'
     |   'signed'
@@ -176,11 +180,26 @@ arrayDimension
     |   '[' ']'
     ;
 
+bitsDeclaration
+    :   ':' ~(';')*
+    ;
+
+structField
+    :   structFieldDeclaration ';'
+    |   preprocessorDeclaration
+    ;
+
 structFieldDeclaration
-    :   primitiveType pointer? Identifier ';'
-    |   Identifier pointer? Identifier arrayDimension+ ';'
-    |   Identifier pointer? Identifier ';'
-    |   'struct' Identifier pointer? Identifier ';'
+    :   primitiveSignedOrUnsignedType typedefDeclarationSpecifiers* pointer? Identifier? bitsDeclaration?
+    |   primitiveSignedOrUnsignedType typedefDeclarationSpecifiers* pointer? Identifier? arrayDimension+ bitsDeclaration?
+    |   Identifier typedefDeclarationSpecifiers* pointer? Identifier? arrayDimension+ bitsDeclaration?
+    |   Identifier typedefDeclarationSpecifiers* pointer? Identifier? bitsDeclaration?
+    |   'struct' typedefDeclarationSpecifiers* Identifier pointer? Identifier?
+    |   'struct' typedefDeclarationSpecifiers* '{' structField+ '}' Identifier?
+    |   'union' typedefDeclarationSpecifiers* '{' structField+ '}' Identifier?
+    |   primitiveSignedOrUnsignedType '(' typedefDeclarationSpecifiers* pointer Identifier ')' '(' structFieldDeclaration (',' structFieldDeclaration)* ')'
+    |   Identifier '(' typedefDeclarationSpecifiers* pointer Identifier ')' '(' structFieldDeclaration (',' structFieldDeclaration)* ')'
+    |   'struct' typedefDeclarationSpecifiers* Identifier '(' typedefDeclarationSpecifiers* pointer Identifier ')' '(' structFieldDeclaration (',' structFieldDeclaration)* ')'
     |   preprocessorDeclaration
     ;
 
@@ -213,11 +232,28 @@ varInitDeclarationList
     :   varType varInitDeclaration (',' varInitDeclaration)* ';'
     ;
 
+typedefDeclarationName
+    :   pointer? Identifier? typedefName
+    ;
+
+typedefDeclarationNames
+    :   typedefDeclarationName (',' typedefDeclarationName)*
+    ;
+
+typedefDeclarationSpecifiers
+    :   Identifier '(' ~(')')* ')'
+    |   Identifier
+    ;
+
+templateSpecifier
+    :   '<' Identifier '>'
+    ;
+
 typedefDeclaration
-    :   'typedef' Identifier pointer? typedefName ';'
-    |   'typedef' signedOrUnsigned primitiveType pointer? typedefName ';'
-    |   'typedef' 'struct' Identifier? '{' structFieldDeclaration+ '}' pointer? typedefName ';'
-    |   'typedef' 'struct' Identifier pointer? typedefName ';'
+    :   'typedef' signedOrUnsigned? Identifier templateSpecifier? typedefDeclarationSpecifiers* typedefDeclarationNames ';'
+    |   'typedef' signedOrUnsigned primitiveType typedefDeclarationSpecifiers* typedefDeclarationNames ';'
+    |   'typedef' structOrUnion Identifier? typedefDeclarationSpecifiers* '{' structField+ '}' typedefDeclarationSpecifiers* typedefDeclarationNames ';'
+    |   'typedef' structOrUnion Identifier typedefDeclarationSpecifiers* typedefDeclarationNames ';'
     ;
 
 declaration

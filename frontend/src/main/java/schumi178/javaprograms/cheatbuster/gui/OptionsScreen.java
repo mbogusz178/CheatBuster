@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import schumi178.javaprograms.cheatbuster.gui.options.OptionsCategory;
@@ -18,6 +19,9 @@ public class OptionsScreen implements Initializable {
 
     @FXML
     private Stage stage;
+
+    @FXML
+    private HBox hBox;
 
     @FXML
     private ListView<OptionsCategory> categoryList;
@@ -42,5 +46,9 @@ public class OptionsScreen implements Initializable {
             }
         });
         categoryList.getSelectionModel().select(0);
+    }
+
+    public HBox getHBox() {
+        return hBox;
     }
 }

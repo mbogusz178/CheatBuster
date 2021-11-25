@@ -327,6 +327,18 @@ public class CBaseListener implements CListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrimitiveSignedOrUnsignedType(CParser.PrimitiveSignedOrUnsignedTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveSignedOrUnsignedType(CParser.PrimitiveSignedOrUnsignedTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSignedOrUnsigned(CParser.SignedOrUnsignedContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -346,6 +358,18 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArrayDimension(CParser.ArrayDimensionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBitsDeclaration(CParser.BitsDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBitsDeclaration(CParser.BitsDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -430,6 +454,54 @@ public class CBaseListener implements CListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVarInitDeclarationList(CParser.VarInitDeclarationListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypedefDeclarationName(CParser.TypedefDeclarationNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypedefDeclarationName(CParser.TypedefDeclarationNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypedefDeclarationSpecifiers(CParser.TypedefDeclarationSpecifiersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypedefDeclarationSpecifiers(CParser.TypedefDeclarationSpecifiersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTemplateSpecifier(CParser.TemplateSpecifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTemplateSpecifier(CParser.TemplateSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

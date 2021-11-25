@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -26,6 +27,8 @@ public class SingleResult implements Initializable {
     private Text resultText;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private VBox vBox;
 
     private int rating;
 
@@ -52,16 +55,16 @@ public class SingleResult implements Initializable {
         ratingLabel.setText(rating + "%");
         if(rating <= 25) {
             ratingLabel.setTextFill(Color.GREEN);
-            ratingBar.getStyleClass().removeAll("red-bar", "yellow-bar");
-            ratingBar.getStyleClass().add("green-bar");
+            vBox.getStylesheets().removeAll("fxml/progressBarRed.css", "fxml/progressBarYellow.css");
+            vBox.getStylesheets().add("fxml/progressBarGreen.css");
         } else if(rating <= 75) {
             ratingLabel.setTextFill(Color.GOLD);
-            ratingBar.getStyleClass().removeAll("red-bar", "green-bar");
-            ratingBar.getStyleClass().add("yellow-bar");
+            vBox.getStylesheets().removeAll("fxml/progressBarRed.css", "fxml/progressBarGreen.css");
+            vBox.getStylesheets().add("fxml/progressBarYellow.css");
         } else {
             ratingLabel.setTextFill(Color.RED);
-            ratingBar.getStyleClass().removeAll("yellow-bar", "green-bar");
-            ratingBar.getStyleClass().add("red-bar");
+            vBox.getStylesheets().removeAll("fxml/progressBarYellow.css", "fxml/progressBarGreen.css");
+            vBox.getStylesheets().add("fxml/progressBarRed.css");
         }
     }
 

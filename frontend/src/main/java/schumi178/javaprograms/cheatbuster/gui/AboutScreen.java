@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import schumi178.javaprograms.cheatbuster.CheatBuster;
 
 import java.net.URL;
@@ -14,6 +15,8 @@ public class AboutScreen implements Initializable {
 
     @FXML
     public ImageView logo;
+    @FXML
+    private VBox vBox;
 
     @FXML
     public void openAttributeSite1() {
@@ -29,5 +32,9 @@ public class AboutScreen implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/logo.png")));
         logo.setImage(image);
+    }
+
+    public VBox getVBox() {
+        return vBox;
     }
 }

@@ -46,12 +46,10 @@ public class JavaDiffUtilsDetector extends CBaseListener implements Assessable, 
         double thisResult = (double)getResult().getValue();
         double relative;
         if(thisResult == 0) {
-            System.out.println(100);
-            return 100;
+            return 0;
         }
         else
             relative = thisResult < linesCount1 ? thisResult / linesCount1 : linesCount1 / thisResult;
-        System.out.println(relative * 100);
         return relative * 100;
     }
 

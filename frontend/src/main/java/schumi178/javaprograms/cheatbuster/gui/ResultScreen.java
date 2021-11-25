@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -28,6 +29,13 @@ public class ResultScreen {
     private Label finalRatingLabel;
     @FXML
     private ProgressBar finalRatingBar;
+    @FXML
+    private VBox vBox;
+    @FXML
+    private VBox styleVBox;
+
+    @FXML
+    private VBox resultVBox;
 
     private final List<SingleResult> controllers = new ArrayList<>();
 
@@ -48,16 +56,22 @@ public class ResultScreen {
         finalRatingLabel.setText(rating + "%");
         if(rating <= 25) {
             finalRatingLabel.setTextFill(Color.GREEN);
-            finalRatingBar.getStyleClass().removeAll("red-bar", "yellow-bar");
-            finalRatingBar.getStyleClass().add("green-bar");
+            styleVBox.getStylesheets().removeAll("fxml/progressBarRed.css", "fxml/progressBarYellow.css");
+            styleVBox.getStylesheets().add("fxml/progressBarGreen.css");
+            resultVBox.getStylesheets().removeAll("fxml/finalRatingBad.css", "fxml/finalRatingAverage.css");
+            resultVBox.getStylesheets().add("fxml/finalResultGood.css");
         } else if(rating <= 75) {
             finalRatingLabel.setTextFill(Color.GOLD);
-            finalRatingBar.getStyleClass().removeAll("red-bar", "green-bar");
-            finalRatingBar.getStyleClass().add("yellow-bar");
+            styleVBox.getStylesheets().removeAll("fxml/progressBarRed.css", "fxml/progressBarGreen.css");
+            styleVBox.getStylesheets().add("fxml/progressBarYellow.css");
+            resultVBox.getStylesheets().removeAll("fxml/finalRatingBad.css", "fxml/finalRatingGood.css");
+            resultVBox.getStylesheets().add("fxml/finalResultAverage.css");
         } else {
             finalRatingLabel.setTextFill(Color.RED);
-            finalRatingBar.getStyleClass().removeAll("yellow-bar", "green-bar");
-            finalRatingBar.getStyleClass().add("red-bar");
+            styleVBox.getStylesheets().removeAll("fxml/progressBarYellow.css", "fxml/progressBarGreen.css");
+            styleVBox.getStylesheets().add("fxml/progressBarRed.css");
+            resultVBox.getStylesheets().removeAll("fxml/finalRatingAverage.css", "fxml/finalRatingGood.css");
+            resultVBox.getStylesheets().add("fxml/finalResultBad.css");
         }
     }
 
@@ -91,5 +105,13 @@ public class ResultScreen {
     @FXML
     private void onClickOK() {
         stage.close();
+    }
+
+    public VBox getVBox() {
+        return vBox;
+    }
+
+    public VBox getResultVBox() {
+        return resultVBox;
     }
 }

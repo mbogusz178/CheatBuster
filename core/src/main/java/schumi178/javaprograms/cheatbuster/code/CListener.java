@@ -267,6 +267,16 @@ public interface CListener extends ParseTreeListener {
 	 */
 	void exitPrimitiveType(CParser.PrimitiveTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CParser#primitiveSignedOrUnsignedType}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitiveSignedOrUnsignedType(CParser.PrimitiveSignedOrUnsignedTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#primitiveSignedOrUnsignedType}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitiveSignedOrUnsignedType(CParser.PrimitiveSignedOrUnsignedTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CParser#signedOrUnsigned}.
 	 * @param ctx the parse tree
 	 */
@@ -286,6 +296,16 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArrayDimension(CParser.ArrayDimensionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#bitsDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterBitsDeclaration(CParser.BitsDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#bitsDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitBitsDeclaration(CParser.BitsDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#structFieldDeclaration}.
 	 * @param ctx the parse tree
@@ -356,6 +376,46 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarInitDeclarationList(CParser.VarInitDeclarationListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#typedefDeclarationName}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypedefDeclarationName(CParser.TypedefDeclarationNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#typedefDeclarationName}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypedefDeclarationName(CParser.TypedefDeclarationNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#typedefDeclarationNames}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#typedefDeclarationNames}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#typedefDeclarationSpecifiers}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypedefDeclarationSpecifiers(CParser.TypedefDeclarationSpecifiersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#typedefDeclarationSpecifiers}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypedefDeclarationSpecifiers(CParser.TypedefDeclarationSpecifiersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#templateSpecifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterTemplateSpecifier(CParser.TemplateSpecifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#templateSpecifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitTemplateSpecifier(CParser.TemplateSpecifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#typedefDeclaration}.
 	 * @param ctx the parse tree

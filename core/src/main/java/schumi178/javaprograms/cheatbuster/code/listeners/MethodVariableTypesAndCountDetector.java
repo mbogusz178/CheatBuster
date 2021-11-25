@@ -2,6 +2,7 @@ package schumi178.javaprograms.cheatbuster.code.listeners;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 import schumi178.javaprograms.cheatbuster.code.CBaseListener;
+import schumi178.javaprograms.cheatbuster.code.CParser;
 import schumi178.javaprograms.cheatbuster.code.CParser.*;
 import schumi178.javaprograms.cheatbuster.code.base.Assessable;
 import schumi178.javaprograms.cheatbuster.kotlin.FunctionKt;
@@ -58,8 +59,10 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener implement
     }
 
     @Override
-    public void enterTypedefDeclaration(TypedefDeclarationContext ctx) {
-        typedefList.add(ctx.typedefName().getText());
+    public void enterTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx) {
+        for(CParser.TypedefDeclarationNameContext typedef: ctx.typedefDeclarationName()) {
+            typedefList.add(typedef.typedefName().getText());
+        }
     }
 
     @Override
@@ -198,10 +201,6 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener implement
         double otherResultCast = (double)otherResult.getValue();
         resultOther = otherResultCast;
         double relative = thisResult < otherResultCast ? thisResult / otherResultCast : otherResultCast / thisResult;
-        System.out.println(relative * 100);
-        for(String typedef: typedefList) {
-            System.out.println(typedef);
-        }
         return relative * 100;
     }
 }

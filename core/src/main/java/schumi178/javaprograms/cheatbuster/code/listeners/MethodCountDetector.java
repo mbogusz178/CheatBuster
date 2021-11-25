@@ -46,7 +46,6 @@ public class MethodCountDetector extends CBaseListener implements Assessable {
         methodCountOther = (int)methodCountOtherDouble;
         double diff = Math.abs((double)getResult().getValue() - (double)otherResult.getValue());
         double factor = Math.pow(2, diff);
-        System.out.println(100 - (100 * ((factor - 1) / factor)));
         return 100 - (100 * ((factor - 1) / factor));
     }
 }

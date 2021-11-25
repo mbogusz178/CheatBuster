@@ -26,7 +26,6 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
     @Override
     public void enterVariableName(CParser.VariableNameContext ctx) {
         variableNames.add(ctx.getText());
-        System.out.println(ctx.getText() + " (zmienna)");
     }
 
     @Override
@@ -46,7 +45,6 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
                     .typedefName()
                     .getText();
             funcNames.add(currentFuncName);
-            System.out.println(currentFuncName + " (funkcja)");
             return;
         }
 
@@ -62,24 +60,24 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
 
         currentFuncName = identifier.getText();
         funcNames.add(currentFuncName);
-        System.out.println(currentFuncName + " (funkcja)");
     }
 
     @Override
-    public void enterTypedefDeclaration(CParser.TypedefDeclarationContext ctx) {
-        typedefList.add(ctx.typedefName().getText());
+    public void enterTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx) {
+        for(CParser.TypedefDeclarationNameContext typedef: ctx.typedefDeclarationName()) {
+            typedefList.add(typedef.typedefName().getText());
+        }
     }
 
     @Override
     public void enterMultiplicativeExpression(CParser.MultiplicativeExpressionContext ctx) {
         String typeName = ctx.castExpression(0).getText();
-//        System.out.println(typeName);
         if(typedefList.contains(typeName)) {
             CParser.CastExpressionContext cast = ctx.castExpression(1);
             if(cast != null) {
                 String secondOperand = UtilKt.getSecondOperand(cast);
                 if (!secondOperand.isEmpty()) {
-                    System.out.println(secondOperand + " (zmienna)");
+                    variableNames.add(secondOperand);
                 }
             }
         }
@@ -155,7 +153,6 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
                 int distance = levenshteinDistance(s1, s2);
                 int maxLength = Math.max(s1.length(), s2.length());
                 if(distance <= 1) {
-                    System.out.println("Podobne: " + s1 + ", " + s2);
                     distanceSingle = 0;
                     distanceMax += maxLength;
                     break;
@@ -166,7 +163,6 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
             distanceCurrent += distanceSingle;
         }
         double finalResult = distanceCurrent / distanceMax;
-        System.out.println(100 - finalResult * 100);
         return 100 - finalResult * 100;
     }
 }

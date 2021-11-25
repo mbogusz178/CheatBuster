@@ -160,7 +160,9 @@ public class CLang implements ProgrammingLanguage {
                 if(line.contains("<") && line.contains(">")) {
                     includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('<') + 1, line.indexOf('>')), includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
                 } else if(line.chars().filter(c -> c == '\"').count() == 2) {
-                    includedDefinesAndTypedefs = processInclude(line.substring(line.indexOf('\"') + 1, line.indexOf('\"', line.indexOf('\"' + 1))), includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
+                    String fileName = line.substring(line.indexOf('\"') + 1);
+                    fileName = fileName.substring(0, fileName.indexOf('\"'));
+                    includedDefinesAndTypedefs = processInclude(fileName, includePaths, new ArrayList<>(), new ArrayList<>(), filesIncluded);
                 } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
                 code = swapStringLine(code, line, includedDefinesAndTypedefs);
             }
@@ -169,14 +171,7 @@ public class CLang implements ProgrammingLanguage {
         if(filesIncluded.contains("sys/cdefs.h") || filesIncluded.contains("cdefs.h")) {
             code = code.replaceAll("__END_DECLS", "");
         }
-        File file = new File("test.c");
-        try {
-            PrintWriter writer = new PrintWriter(file);
-            writer.write(code);
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
         return code;
     }
 

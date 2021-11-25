@@ -1,0 +1,2 @@
+.progress-bar > .bar { -fx-background-color: green !important; -fx-accent: green !important; }
+.label { -fx-text-fill: green !important; }

@@ -8,15 +8,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="465.0" prefWidth="200.0" spacing="30.0" stylesheets="@progressBar.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schumi178.javaprograms.cheatbuster.gui.SingleResult">
+<VBox alignment="CENTER" prefHeight="465.0" prefWidth="200.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schumi178.javaprograms.cheatbuster.gui.SingleResult">
    <children>
       <Label fx:id="listenerName" text="LISTENER_NAME" />
-      <Label fx:id="ratingLabel" alignment="CENTER" text="\%" textFill="LIME">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Label>
-      <ProgressBar fx:id="ratingBar" prefWidth="200.0" progress="0.0" />
+      <VBox fx:id="vBox" alignment="CENTER" spacing="30.0">
+         <children>
+            <Label fx:id="ratingLabel" alignment="CENTER" text="\%" textFill="LIME">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <ProgressBar fx:id="ratingBar" prefWidth="200.0" progress="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </VBox>
       <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0">
          <content>
             <Text fx:id="resultText" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULT_DESCRIPTION" />

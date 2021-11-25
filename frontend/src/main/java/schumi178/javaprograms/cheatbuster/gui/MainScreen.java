@@ -5,11 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.JMetroStyleClass;
+import jfxtras.styles.jmetro.Style;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -40,6 +44,9 @@ public class MainScreen {
 
     @FXML
     private TextArea rightTextArea;
+
+    @FXML
+    private BorderPane borderPane;
 
     private void openFile(TextArea area) {
         FileChooserProvider provider = new CFileChooserProvider();
@@ -72,6 +79,10 @@ public class MainScreen {
     public void openAboutWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aboutScreen.fxml"));
         Stage aboutScreen = loader.load();
+        JMetro jMetro = new JMetro(Style.DARK);
+        jMetro.setScene(aboutScreen.getScene());
+        AboutScreen controller = loader.getController();
+        controller.getVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
         aboutScreen.show();
     }
 
@@ -85,6 +96,10 @@ public class MainScreen {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/optionsScreen.fxml"));
         try {
             Stage stage = loader.load();
+            JMetro jMetro = new JMetro(Style.DARK);
+            jMetro.setScene(stage.getScene());
+            OptionsScreen controller = loader.getController();
+            controller.getHBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,6 +136,16 @@ public class MainScreen {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        File file = new File("test.c");
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            writer.write(preprocessedLeftText);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         CharStream charStream = CharStreams.fromString(preprocessedLeftText);
         Lexer lexer = lang.getLexer(charStream);
         lexer.setTokenFactory(new CommonTokenFactory(true));
@@ -183,7 +208,23 @@ public class MainScreen {
             resultScreen.addController(resultController);
             stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> resultController.onShown());
         }
+        JMetro jMetro = new JMetro(Style.DARK);
+        jMetro.setScene(stage.getScene());
+        resultScreen.getVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
+        resultScreen.getResultVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
         resultScreen.setFinalRating(result.getFinalResult());
         stage.show();
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
+
+    public TextArea getLeftTextArea() {
+        return leftTextArea;
+    }
+
+    public TextArea getRightTextArea() {
+        return rightTextArea;
     }
 }

@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import schumi178.javaprograms.cheatbuster.gui.StageController;

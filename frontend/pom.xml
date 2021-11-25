@@ -38,6 +38,11 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.jfxtras</groupId>
+            <artifactId>jmetro</artifactId>
+            <version>11.6.15</version>
+        </dependency>
     </dependencies>
 
     <build>
