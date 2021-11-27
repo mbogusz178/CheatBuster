@@ -11,6 +11,7 @@
     <modules>
         <module>frontend</module>
         <module>core</module>
+        <module>assembly</module>
     </modules>
 
     <properties>

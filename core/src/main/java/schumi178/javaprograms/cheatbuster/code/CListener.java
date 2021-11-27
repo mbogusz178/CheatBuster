@@ -1,11 +1,12 @@
-package schumi178.javaprograms.cheatbuster.code;// Generated from C.g4 by ANTLR 4.7.1
-import org.antlr.v4.runtime.tree.ParseTreeListener;
+// Generated from schumi178.javaprograms.cheatbuster.code.generated/C.g4 by ANTLR 4.7.1
+package schumi178.javaprograms.cheatbuster.code;
+import schumi178.javaprograms.cheatbuster.code.base.Assessable;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
  * {@link CParser}.
  */
-public interface CListener extends ParseTreeListener {
+public interface CListener extends Assessable {
 	/**
 	 * Enter a parse tree produced by {@link CParser#compilationUnit}.
 	 * @param ctx the parse tree
@@ -307,6 +308,16 @@ public interface CListener extends ParseTreeListener {
 	 */
 	void exitBitsDeclaration(CParser.BitsDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CParser#structField}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructField(CParser.StructFieldContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#structField}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructField(CParser.StructFieldContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CParser#structFieldDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -336,6 +347,46 @@ public interface CListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionCall(CParser.FunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#index}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndex(CParser.IndexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#index}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndex(CParser.IndexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#range}.
+	 * @param ctx the parse tree
+	 */
+	void enterRange(CParser.RangeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#range}.
+	 * @param ctx the parse tree
+	 */
+	void exitRange(CParser.RangeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#rangeInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterRangeInitialization(CParser.RangeInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#rangeInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitRangeInitialization(CParser.RangeInitializationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CParser#rangeInitializedArray}.
+	 * @param ctx the parse tree
+	 */
+	void enterRangeInitializedArray(CParser.RangeInitializedArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CParser#rangeInitializedArray}.
+	 * @param ctx the parse tree
+	 */
+	void exitRangeInitializedArray(CParser.RangeInitializedArrayContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CParser#varInitValue}.
 	 * @param ctx the parse tree

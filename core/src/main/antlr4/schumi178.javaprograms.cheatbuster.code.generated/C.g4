@@ -211,11 +211,30 @@ functionCall
     :   Identifier '(' Identifier ')'
     ;
 
+index
+    :   Identifier
+    |   Constant
+    ;
+
+range
+    :   '[' index '...' index ']'
+    ;
+
+rangeInitialization
+    :   range '=' varInitValue
+    ;
+
+rangeInitializedArray
+    :   '{' rangeInitialization (',' rangeInitialization)* '}'
+    ;
+
 varInitValue
     :   Identifier
     |   Constant
     |   StringLiteral
     |   functionCall
+    |   '{' (varInitValue (',' varInitValue)*)? '}'
+    |   rangeInitializedArray
     ;
 
 varInitDeclaration

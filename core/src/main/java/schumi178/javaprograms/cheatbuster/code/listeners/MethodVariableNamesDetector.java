@@ -2,19 +2,21 @@ package schumi178.javaprograms.cheatbuster.code.listeners;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 import schumi178.javaprograms.cheatbuster.code.CBaseListener;
-import schumi178.javaprograms.cheatbuster.code.CParser;
 import schumi178.javaprograms.cheatbuster.code.base.Assessable;
+import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
 import schumi178.javaprograms.cheatbuster.kotlin.UtilKt;
 import schumi178.javaprograms.cheatbuster.util.ListStringResult;
 import schumi178.javaprograms.cheatbuster.util.ListStringWrapper;
 import schumi178.javaprograms.cheatbuster.util.Result;
+import schumi178.javaprograms.cheatbuster.code.CParser;
+import schumi178.javaprograms.cheatbuster.util.TypedefParser;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class MethodVariableNamesDetector extends CBaseListener implements Assessable {
+public class MethodVariableNamesDetector extends CBaseListener {
 
     private final Set<String> typedefList = new HashSet<>();
     private final List<String> variableNames = new ArrayList<>();
@@ -22,6 +24,40 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
 
     private List<String> totalNames = new ArrayList<>();
     private List<String> totalNamesOther = new ArrayList<>();
+
+    public MethodVariableNamesDetector(String file, String includedTypesPath) throws DoesNotCompileException {
+        List<String> lines = file.lines().collect(Collectors.toList());
+        int count = 1;
+        for(String line: lines) {
+            if(TypedefParser.isInclude(line)) {
+                if(line.contains("<") && line.contains(">")) {
+                    String childFileName = line.substring(line.indexOf('<') + 1, line.indexOf('>'));
+                    try {
+                        Scanner sc = new Scanner(new File(includedTypesPath + "/" + childFileName + ".cfg"));
+                        while(sc.hasNextLine()) {
+                            typedefList.add(sc.nextLine());
+                        }
+                        sc.close();
+                    } catch (FileNotFoundException ignored) {
+
+                    }
+                } else if(line.chars().filter(c -> c == '\"').count() == 2) {
+                    String childFileName = line.substring(line.indexOf('\"') + 1);
+                    childFileName = childFileName.substring(0, childFileName.indexOf('\"'));
+                    try {
+                        Scanner sc = new Scanner(new File("cache/c/includedTypes/" + childFileName + ".cfg"));
+                        while(sc.hasNextLine()) {
+                            typedefList.add(sc.nextLine());
+                        }
+                        sc.close();
+                    } catch (FileNotFoundException ignored) {
+
+                    }
+                } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
+            }
+            count++;
+        }
+    }
 
     @Override
     public void enterVariableName(CParser.VariableNameContext ctx) {
@@ -137,6 +173,28 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
         return 2;
     }
 
+    private double[] levenshteinLoop(List<String> thisList, List<String> otherList) {
+        double distanceCurrent = 0;
+        double distanceMax = 0;
+        for(String s1: thisList) {
+            double distanceSingle = 0;
+            boolean similarDetected = false;
+            for(String s2: otherList) {
+                int distance = levenshteinDistance(s1, s2);
+                int maxLength = Math.max(s1.length(), s2.length());
+                if(distance <= 1) {
+                    distanceSingle = 0;
+                    similarDetected = true;
+                }
+                if(!similarDetected)
+                    distanceSingle += distance;
+                distanceMax += maxLength;
+            }
+            distanceCurrent += distanceSingle;
+        }
+        return new double[] {distanceCurrent, distanceMax};
+    }
+
     @Override
     public double assess(Result otherResult) {
         Result thisResult = getResult();
@@ -145,23 +203,10 @@ public class MethodVariableNamesDetector extends CBaseListener implements Assess
         assert otherResult instanceof ListStringResult;
         List<String> otherList = ((ListStringResult)otherResult).getResult();
         totalNamesOther = otherList;
-        double distanceCurrent = 0;
-        double distanceMax = 0;
-        for(String s1: thisList) {
-            double distanceSingle = 0;
-            for(String s2: otherList) {
-                int distance = levenshteinDistance(s1, s2);
-                int maxLength = Math.max(s1.length(), s2.length());
-                if(distance <= 1) {
-                    distanceSingle = 0;
-                    distanceMax += maxLength;
-                    break;
-                }
-                distanceSingle += distance;
-                distanceMax += maxLength;
-            }
-            distanceCurrent += distanceSingle;
-        }
+        double[] result1 = levenshteinLoop(thisList, otherList);
+        double[] result2 = levenshteinLoop(otherList, thisList);
+        double distanceCurrent = (result1[0] + result2[0]) / 2.0;
+        double distanceMax = result1[1];
         double finalResult = distanceCurrent / distanceMax;
         return 100 - finalResult * 100;
     }

@@ -22,11 +22,10 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-public class SameFileTest {
+public class SwappedFilesTest {
 
-    private static final Logger log = Logger.getLogger(SameFileTest.class.getName());
+    private static final Logger log = Logger.getLogger(SwappedFilesTest.class.getName());
     private static final ProgrammingLanguageFactory factory = new ProgrammingLanguageFactory();
 
     @BeforeAll
@@ -34,7 +33,7 @@ public class SameFileTest {
         factory.registerLanguage(new CLang());
     }
 
-    private void compareFiles(File file1, File file2) throws IOException, DoesNotCompileException, URISyntaxException {
+    private AssessmentResult compareFiles(File file1, File file2) throws IOException, DoesNotCompileException, URISyntaxException {
         ProgrammingLanguage lang = factory.getLanguage(file1.getName());
 
         URL resource = getClass().getResource("/includedTypes");
@@ -86,12 +85,25 @@ public class SameFileTest {
             }
         });
 
-        AssessmentResult result = lang.assess(listeners, listeners1);
-        assert result.getFinalResult() == 100;
-        Iterator<Double> it = result.resultDoubleIterator();
-        while(it.hasNext()) {
-            assert(it.next() == 100);
+        return lang.assess(listeners, listeners1);
+    }
+
+    private void compareSwappedFiles(File file1, File file2) throws IOException, DoesNotCompileException, URISyntaxException {
+        AssessmentResult result1 = compareFiles(file1, file2);
+        AssessmentResult result2 = compareFiles(file2, file1);
+        assert result1.getFinalResult() == result2.getFinalResult();
+        Iterator<Double> it = result1.resultDoubleIterator();
+        Iterator<Double> it2 = result2.resultDoubleIterator();
+        while (it.hasNext() && it2.hasNext()) {
+            assert (double) it.next() == it2.next();
         }
+    }
+
+    @Test
+    public void fileSet1() throws URISyntaxException, IOException, DoesNotCompileException {
+        File file1 = new File(Objects.requireNonNull(getClass().getResource("/testCode/PP KJ-projekt z dokumentacja-15461_1/Małgorzata Kulik_233576_assignsubmission_file_/main.c")).toURI());
+        File file2 = new File(Objects.requireNonNull(getClass().getResource("/testCode/PP KJ-projekt z dokumentacja-15461_1/Michał Leończuk_233577_assignsubmission_file_/projekt szachy - Michał Leończuk/ruchy.c")).toURI());
+        compareSwappedFiles(file1, file2);
     }
 
     private List<File> getCFiles(File parent, List<File> totalFiles) {
@@ -114,9 +126,13 @@ public class SameFileTest {
 
         File file = Paths.get(Objects.requireNonNull(resource).toURI()).toFile();
         List<File> cCode = getCFiles(file, new ArrayList<>());
-        for (File code : cCode) {
-            log.info("Przetwarzanie pliku " + code.getName() + " (" + code.getAbsolutePath() + ")");
-            compareFiles(code, code);
+        for (int i = 0; i < cCode.size(); i++) {
+            for(int j = i + 1; j < cCode.size(); j++) {
+                File file1 = cCode.get(i);
+                File file2 = cCode.get(j);
+                log.info("Przetwarzanie pliku " + file1.getName() + " (" + file1.getAbsolutePath() + ") i " + file2.getName() + " (" + file2.getAbsolutePath() + ")");
+                compareSwappedFiles(file1, file2);
+            }
         }
     }
 }

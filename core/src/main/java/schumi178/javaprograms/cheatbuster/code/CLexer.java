@@ -1,4 +1,5 @@
-package schumi178.javaprograms.cheatbuster.code;// Generated from C.g4 by ANTLR 4.7.1
+// Generated from schumi178.javaprograms.cheatbuster.code.generated/C.g4 by ANTLR 4.7.1
+package schumi178.javaprograms.cheatbuster.code;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATN;

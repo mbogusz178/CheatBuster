@@ -8,17 +8,21 @@ import schumi178.javaprograms.cheatbuster.code.AssessmentResult;
 import schumi178.javaprograms.cheatbuster.code.base.languages.CLang;
 import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public interface ProgrammingLanguage {
     Lexer getLexer(CharStream code);
+    String getName();
+    List<LanguageAction> getActions();
+    String getFileExtension();
     CompileReadyParser getParser(TokenStream tokenStream);
-    List<ParseTreeListener> getListeners();
+    List<ParseTreeListener> getListeners(String file, String includedTypesPath) throws DoesNotCompileException;
     default String preprocess(String code, List<String> includePaths) throws DoesNotCompileException {
         return code;
     }
     AssessmentResult assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond);
-    static ProgrammingLanguage getLanguage() {
-        return new CLang();
-    }
 }

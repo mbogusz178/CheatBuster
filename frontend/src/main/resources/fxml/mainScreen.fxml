@@ -17,7 +17,7 @@
    <scene>
       <Scene>
          <root>
-            <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="700.0" stylesheets="@focusedTextField.css">
+            <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="700.0">
                <top>
                   <MenuBar prefWidth="700.0" BorderPane.alignment="CENTER">
                     <menus>
@@ -34,6 +34,11 @@
                           <MenuItem mnemonicParsing="false" onAction="#onOptionsClick" text="Opcje" />
                         </items>
                       </Menu>
+                        <Menu fx:id="languageActions" mnemonicParsing="false" text="LANGNAME" visible="false">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                          </items>
+                        </Menu>
                       <Menu mnemonicParsing="false" text="Pomoc">
                         <items>
                           <MenuItem mnemonicParsing="false" onAction="#openAboutWindow" text="O programie" />

@@ -2,17 +2,21 @@ package schumi178.javaprograms.cheatbuster.code.listeners;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 import schumi178.javaprograms.cheatbuster.code.CBaseListener;
-import schumi178.javaprograms.cheatbuster.code.CParser;
 import schumi178.javaprograms.cheatbuster.code.CParser.*;
 import schumi178.javaprograms.cheatbuster.code.base.Assessable;
+import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException;
 import schumi178.javaprograms.cheatbuster.kotlin.FunctionKt;
 import schumi178.javaprograms.cheatbuster.kotlin.UtilKt;
 import schumi178.javaprograms.cheatbuster.util.DoubleWrapper;
 import schumi178.javaprograms.cheatbuster.util.Result;
+import schumi178.javaprograms.cheatbuster.util.TypedefParser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class MethodVariableTypesAndCountDetector extends CBaseListener implements Assessable {
+public class MethodVariableTypesAndCountDetector extends CBaseListener {
 
     private final Map<String, Set<String>> variableTypes = new HashMap<>();
     private final Map<String, Integer> variableCounts = new HashMap<>();
@@ -25,9 +29,45 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener implement
 
     private String currentFuncName = "Outside function";
 
-    public MethodVariableTypesAndCountDetector() {
+    public MethodVariableTypesAndCountDetector(String file, String includedTypesPath) throws DoesNotCompileException {
         funcNameList.add("Outside function");
         variableTypes.put("Outside function", new HashSet<>());
+        List<String> lines = file.lines().collect(Collectors.toList());
+        int count = 1;
+        for(String line: lines) {
+            if(TypedefParser.isInclude(line)) {
+                if(line.contains("<") && line.contains(">")) {
+                    String childFileName = line.substring(line.indexOf('<') + 1, line.indexOf('>'));
+                    try {
+                        Scanner sc = new Scanner(new File(includedTypesPath + "/" + childFileName + ".cfg"));
+                        while(sc.hasNextLine()) {
+                            typedefList.add(sc.nextLine());
+                        }
+                        sc.close();
+                    } catch (FileNotFoundException ignored) {
+
+                    }
+                } else if(line.chars().filter(c -> c == '\"').count() == 2) {
+                    String childFileName = line.substring(line.indexOf('\"') + 1);
+                    childFileName = childFileName.substring(0, childFileName.indexOf('\"'));
+                    try {
+                        Scanner sc = new Scanner(new File("cache/c/includedTypes/" + childFileName + ".cfg"));
+                        while(sc.hasNextLine()) {
+                            typedefList.add(sc.nextLine());
+                        }
+                        sc.close();
+                    } catch (FileNotFoundException ignored) {
+
+                    }
+                } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
+            }
+            count++;
+        }
+    }
+
+    @Override
+    public void enterIncludeDeclaration(IncludeDeclarationContext ctx) {
+        System.out.println(ctx.IncludeBlock().getText());
     }
 
     public Map<String, Integer> getVariableCounts() {
@@ -59,8 +99,8 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener implement
     }
 
     @Override
-    public void enterTypedefDeclarationNames(CParser.TypedefDeclarationNamesContext ctx) {
-        for(CParser.TypedefDeclarationNameContext typedef: ctx.typedefDeclarationName()) {
+    public void enterTypedefDeclarationNames(TypedefDeclarationNamesContext ctx) {
+        for(TypedefDeclarationNameContext typedef: ctx.typedefDeclarationName()) {
             typedefList.add(typedef.typedefName().getText());
         }
     }
@@ -199,7 +239,18 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener implement
     public double assess(Result otherResult) {
         double thisResult = (double)getResult().getValue();
         double otherResultCast = (double)otherResult.getValue();
+        if(thisResult == 0 && otherResultCast == 0) {
+            return 100;
+        }
+        double diff;
+        if(thisResult < otherResultCast) {
+            diff = thisResult * 0.9;
+        } else {
+            diff = otherResultCast * 0.9;
+        }
         resultOther = otherResultCast;
+        thisResult -= diff;
+        otherResultCast -= diff;
         double relative = thisResult < otherResultCast ? thisResult / otherResultCast : otherResultCast / thisResult;
         return relative * 100;
     }

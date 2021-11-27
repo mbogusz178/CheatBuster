@@ -1,1221 +1,267 @@
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
-typedef __builtin_va_list va_list;
-typedef __builtin_va_list __gnuc_va_list;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-typedef signed long int __int64_t;
-typedef unsigned long int __uint64_t;
-typedef __int8_t __int_least8_t;
-typedef __uint8_t __uint_least8_t;
-typedef __int16_t __int_least16_t;
-typedef __uint16_t __uint_least16_t;
-typedef __int32_t __int_least32_t;
-typedef __uint32_t __uint_least32_t;
-typedef __int64_t __int_least64_t;
-typedef __uint64_t __uint_least64_t;
-typedef long int __quad_t;
-typedef unsigned long int __u_quad_t;
-typedef long int __intmax_t;
-typedef unsigned long int __uintmax_t;
-typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef char *__caddr_t;
-typedef int __sig_atomic_t;
-typedef struct
-{
-int __count;
-union
-{
-__WINT_TYPE__ __wch;
-char __wchb[4];
-} __value;		/* Value so far.  */
-} __mbstate_t;
-typedef struct _G_fpos_t
-{
-__off_t __pos;
-__mbstate_t __state;
-} __fpos_t;
-typedef struct _G_fpos64_t
-{
-__off64_t __pos;
-__mbstate_t __state;
-} __fpos64_t;
-typedef struct _IO_FILE __FILE;
-typedef struct _IO_FILE FILE;
-typedef void _IO_lock_t;
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-cookie_read_function_t *read;		/* Read bytes.  */
-cookie_write_function_t *write;	/* Write bytes.  */
-cookie_seek_function_t *seek;		/* Seek/tell file position.  */
-cookie_close_function_t *close;	/* Close file.  */
-} cookie_io_functions_t;
-typedef __gnuc_va_list va_list;
-typedef __off_t off_t;
-typedef __off64_t off_t;
-typedef __off64_t off64_t;
-typedef __ssize_t ssize_t;
-typedef __fpos_t fpos_t;
-typedef __fpos64_t fpos_t;
-typedef __fpos64_t fpos64_t;
-typedef _Complex float __cfloat128 __attribute__ ((__mode__ (__TC__)));
-typedef __float128 _Float128;
-typedef _Complex float __cfloat16 __attribute__ ((__mode__ (__HC__)));
-typedef float _Float16 __attribute__ ((__mode__ (__HF__)));
-typedef float _Float32;
-typedef long double _Float64;
-typedef double _Float64;
-typedef double _Float32x;
-typedef long double _Float64x;
-typedef _Float128 _Float64x;
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+
+struct typ {
+    int i;
+    int j;
+    int t;
+};
+
+typedef struct typ Typ;
+
+struct element {
+    Typ dane;
+    struct element *nast;
+};
+typedef struct element ELEMENT;
+typedef ELEMENT *ADRES;
+
+void plantBomb (ADRES *pocz, int i, int j){
+    ADRES pom;
+    ADRES a = (ADRES)malloc(sizeof (ELEMENT)); a->nast = NULL; a->dane.i = i; a->dane.j = j; a->dane.t = 5;
+    if (*pocz==NULL) {*pocz = a; return;}
+    pom=*pocz;
+    while ((pom)->nast!=NULL)
+        pom=(pom)->nast;
+    pom->nast=a;
+}
+
+void zawartoscElem (ADRES pocz){ //DEBUGING ONE
+    while (pocz!=NULL) {printf ("%d->",pocz->dane.t); pocz=pocz->nast;}
+    printf("NULL\n");
+}
+
+void fire (char **playground, int i, int j, int moc, int kirunek)
+{
+    if (moc==0) return;
+    if (playground[i][j]!='#') { if ((playground[i][j]=='-')||(playground[i][j]=='^')) {
+        switch (kirunek){
+        case 1: fire (playground, i-1, j, moc-1, 1);
+            break;
+        case 2: fire (playground, i+1, j, moc-1, 2);
+            break;
+        case 3: fire (playground, i, j-1, moc-1, 3);
+            break;
+        case 4: fire (playground, i, j+1, moc-1, 4);
+            break;
+        }
+    } playground[i][j]='^'; }
+}
+
+ADRES timer (char **playground, ADRES pocz)
+{
+    ADRES step = pocz;
+    while (step!=NULL) {step->dane.t--;
+        if (playground[step->dane.i][step->dane.j]=='-')
+            playground[step->dane.i][step->dane.j]='o';
+        ADRES pom = step;
+        step=step->nast;
+        if (pom->dane.t==0){
+        playground[pom->dane.i][pom->dane.j]='-';
+        fire(playground, pom->dane.i,pom->dane.j,3,1);
+        fire(playground, pom->dane.i,pom->dane.j,3,2);
+        fire(playground, pom->dane.i,pom->dane.j,3,3);
+        fire(playground, pom->dane.i,pom->dane.j,3,4);
+        free(pom);
+        pocz = pocz->nast;}
+    }
+    return pocz;
+    printf("NULL\n");
+}
+
+void GoUp (char **playground, int i, int j, int tries)
+    {
+        if (tries==0) {return;}
+        if ((playground[i-1][j]=='-')||(playground[i-1][j]=='A'))
+        {
+            playground[i-1][j]='u'; playground[i][j]='-';
+        } else
+        switch (rand()%3) {
+            case 0: GoRight (playground,i,j,tries-1); break;
+            case 1: GoLeft (playground,i,j,tries-1); break;
+            case 2: GoDown (playground,i,j,tries-1); break; }
+    }
+
+void GoRight (char **playground, int i, int j, int tries)
+    {
+        if (tries==0) {return;}
+        if ((playground[i][j+1]=='-')||(playground[i][j+1]=='A'))
+        {
+            playground[i][j+1]='r'; playground[i][j]='-';
+        } else
+        switch (rand()%3) {
+            case 0: GoUp (playground,i,j,tries-1); break;
+            case 1: GoLeft (playground,i,j,tries-1); break;
+            case 2: GoDown (playground,i,j,tries-1); break; }
+    }
+
+void GoDown (char **playground, int i, int j, int tries)
+    {
+        if (tries==0) {return;}
+        if ((playground[i+1][j]=='-')||(playground[i+1][j]=='A'))
+        {
+            playground[i+1][j]='d'; playground[i][j]='-';
+        } else
+        switch (rand()%3) {
+            case 0: GoRight (playground,i,j,tries-1); break;
+            case 1: GoLeft (playground,i,j,tries-1); break;
+            case 2: GoUp (playground,i,j,tries-1); break; }
+    }
+
+void GoLeft (char **playground, int i, int j, int tries)
+    {
+        if (tries==0) {return;}
+        if ((playground[i][j-1]=='-')||(playground[i][j-1]=='A'))
+        {
+            playground[i][j-1]='l'; playground[i][j]='-';
+        } else
+        switch (rand()%3) {
+            case 0: GoRight (playground,i,j,tries-1); break;
+            case 1: GoUp (playground,i,j,tries-1); break;
+            case 2: GoDown (playground,i,j,tries-1); break; }
+    }
+
+
+void play (char *levelname)
+{
+    srand(time(0));
+    FILE *level;
+    if (level = fopen (levelname, "r")) {
+        int H,W;
+        fscanf(level,"%d %d",&H,&W);
+        int i,j;
+        char **playground;
+        playground = (char**)malloc((H+1) * sizeof(char*));
+        for (i=0; i<H; i++)
+        {
+            playground[i] = (char*)malloc((W+1) * sizeof(char));
+            for (j=0; j<W; j++)
+            {
+                playground[i][j]=fgetc(level);
+            }
+        }
+        int enemy=1;
+        int move = 0;
+        ADRES pocz = NULL;
+        while (enemy){
+            enemy=0;
+            system("cls");
+            printf ("%s\n",levelname);
+            printf("H=%d W=%d\n",H,W);
+            pocz = timer(playground, pocz);
+            for (i=0; i<H; i++)
+                {
+                    for (j=0; j<W; j++)
+                    {
+                        printf("%c",playground[i][j]);
+                        if (playground[i][j]=='^') playground[i][j]='-';
+                    }
+                    printf("\n");
+                }
+            //printf ("%d\n",move);
+            //zawartoscElem(pocz);
+            move=_getch();
+            int pi=-1,pj=-1;
+            for (i=0; i<H; i++)
+                {
+                    for (j=0; j<W; j++)
+                    {
+                        if (playground[i][j]=='A'){
+                                pi=i; pj=j;
+                            }
+                        }
+                    }
+            if (pi==-1) {printf ("GAME OVER"); return 0;}
+            switch(move) {
+                case 119: //UP
+                     if (playground[pi-1][pj]=='-') {playground[pi-1][pj]='A'; playground[pi][pj]='-';}
+                     break;
+                case 115: //DOWN
+                     if (playground[pi+1][pj]=='-') {playground[pi+1][pj]='A'; playground[pi][pj]='-';}
+                     break;
+                case 97: //LEFT
+                     if (playground[pi][pj-1]=='-') {playground[pi][pj-1]='A'; playground[pi][pj]='-';}
+                     break;
+                case 100: //RIGHT
+                     if (playground[pi][pj+1]=='-') {playground[pi][pj+1]='A'; playground[pi][pj]='-';}
+                     break;
+                case 32: //PLANT
+                     plantBomb(&pocz, pi,pj);
+                     break;
+                         }
+            for (i=0; i<H; i++)
+                {
+                    for (j=0; j<W; j++)
+                    {
+                        switch (playground[i][j])
+                        {
+                        case 'U': GoUp (playground,i,j,10); enemy++;
+                            break;
+                        case 'L': GoLeft (playground,i,j,10); enemy++;
+                            break;
+                        case 'D': GoDown (playground,i,j,10); enemy++;
+                            break;
+                        case 'R': GoRight (playground,i,j,10); enemy++;
+                            break;
+                        }
+                    }
+                }
+            for (i=0; i<H; i++)
+                {
+                    for (j=0; j<W; j++)
+                    {
+                        switch (playground[i][j])
+                        {
+                            case 'u': playground[i][j]='U'; break;
+                            case 'd': playground[i][j]='D'; break;
+                            case 'l': playground[i][j]='L'; break;
+                            case 'r': playground[i][j]='R'; break;
+                        }
+                    }
+                }
+        }
+        printf ("Zwyciestwo!!!!!");
+
+    } else {printf ("No such level"); return;};
+}
+
+void createlevel (char *levelname)
+{
+    FILE *level;
+    if (level = fopen (levelname, "w")) {
+        printf ("Enter height and width:");
+        int H,W;
+        scanf("%d %d\n",&H,&W);
+        fprintf(level,"%d %d",H,W);
+        int i,j;
+        char *line;
+        line = (char*)malloc((W+1) * sizeof(char));
+        for (i=0; i<H; i++)
+        {
+            gets(line);
+            fprintf(level,"%s",line);
+        }
+    } else {printf ("Create ERROR"); return;}
+}
 
 int main()
 {
-    int menu=0;
-    FILE *plik;
-    char pytania[] = "pytania.txt";
-    char tresc[100], odpA[50], odpB[50], odpC[50], odpD[50], puste[100];
-    char poprawna, odczytana;
-    int punkty=0, i=0;
-    printf("\n\t\tSPRAWDZ, ILE WIESZ O LAO CHE!\n");
-    do
+    printf ("1. Play level\n2. Create level\n");
+    char choice;
+    scanf ("%d",&choice);
+    printf ("Enter level name:");
+    char levelname[100];
+    scanf("%s",&levelname);
+    if (choice==1)
     {
-        printf("*********************************************************************\n");
-        printf("1.QUIZ\n");
-        printf("2.EXIT\n");
-        printf("*********************************************************************\n");
-        printf("Wybierz opcje (1. albo 2.): \n");
-        scanf("%d", &menu);
-        fflush(stdin);
-        if(menu!=1)
-            if(menu!=2)
-                printf("Musisz wybrac 1 albo 2!\n");
-    }while(menu>=3 || menu==0);
-        switch(menu)
-        {
-            case 1: fopen(pytania,"rt"); break;
-            case 2: printf("Koniec quizu\n"); exit(0); break;
-        }
-   plik = fopen(pytania, "rt");
-    if (!plik)
-    {
-        printf("Nie mozna otworzyc pytan! %s\n", pytania);
-        return 0;
+        play (levelname);
     }
-        for(i=0;i<=4;i++)
-        {
-            fgets(puste,100,plik);  puts(puste);
-            fgets(tresc,100,plik);  puts(tresc);
-            fgets(odpA,50,plik);    puts(odpA);
-            fgets(odpB,50,plik);    puts(odpB);
-            fgets(odpC,50,plik);    puts(odpC);
-            fgets(odpD,50,plik);    puts(odpD);
-            poprawna = fgetc(plik);
-            printf("\n\tPodaj odpowiedz (A, B, C, D): ");
-            scanf("%c",&odczytana);
-            fflush(stdin);
-            if (odczytana==poprawna)
-            {
-                printf("\n\tBrawo! Poprawna odpowiedz!\n");
-                punkty++;
-            }
-            else
-                printf("\n\tO nie! Nie udalo Ci sie! Poprawna odpowiedz to %c.\n", poprawna);
-        }
-    fclose(plik);
-        if(punkty==5)
-            printf("\n\t%d/5!\n\tWysmienicie, jestes prawdziwym fanem!\n", punkty);
-        if(punkty==4 || punkty==3)
-            printf("\n\t%d/5!\n\tNiezle!\n",punkty);
-        if(punkty==1||punkty==2)
-            printf("\n\t%d/5!\n\tNie poszlo Ci najlepiej!\n",punkty);
-        if(punkty==0)
-        printf("\n\t%d/5!\n\tPrzykro mi, musisz sie jeszcze podszkolic!\n", punkty);
+    else
+    {
+        createlevel (levelname);
+    }
+    //printf("Hello world!\n");
     return 0;
 }
