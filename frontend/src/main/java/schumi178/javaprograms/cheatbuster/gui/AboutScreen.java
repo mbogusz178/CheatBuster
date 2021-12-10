@@ -24,6 +24,9 @@ public class AboutScreen implements Initializable {
     }
 
     @FXML
+    public void openAttributeSite2() { CheatBuster.showWebsite("https://www.flaticon.com/authors/smashicons");}
+
+    @FXML
     public void openFlaticonSite() {
         CheatBuster.showWebsite("https://www.flaticon.com/");
     }

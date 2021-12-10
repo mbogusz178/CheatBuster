@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class CLang implements ProgrammingLanguage {
@@ -37,6 +38,12 @@ public class CLang implements ProgrammingLanguage {
     @Override
     public String getName() {
         return "C";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Jeśli CheatBuster nie rozpoznał wszystkich plików nagłówkowych zaimportowanych w załadowanych plikach, w pasku statusu zostanie wyświetlone stosowne powiadomienie, zawierające nazwy nierozpoznanych plików. Aby CheatBuster poprawnie rozpoznał brakujące pliki, wskaż ścieżki do nich w menu Opcje > Opcje > Preprocesor, a następnie wybierz opcję C > Odśwież zależności. Jeśli chcesz odświeżyć pasek statusu, kliknij ikonę odświeżania w prawym dolnym rogu.\n" +
+                "Ewentualnie, jeśli na Twoim komputerze nie ma wymaganych plików nagłówkowych, możesz kontynuować bez nich, jednak typy zdefiniowane w tych plikach przy pomocy polecenia typedef nie zostaną uwzględnione w procesie porównania, co może doprowadzić do błędnego rozpoznania deklaracji zmiennych wskaźnikowych, a co za tym idzie - mniej dokładnego wyniku podobieństwa kodu.";
     }
 
     private String refreshDependencies(String code, List<String> includePaths) {
@@ -87,6 +94,25 @@ public class CLang implements ProgrammingLanguage {
     @Override
     public List<ParseTreeListener> getListeners(String file, String includedTypesPath) throws DoesNotCompileException {
         return List.of(new MethodCountDetector(), new MethodVariableTypesAndCountDetector(file, includedTypesPath), new MethodVariableNamesDetector(file, includedTypesPath), new JavaDiffUtilsDetector());
+    }
+
+    @Override
+    public String getErrors(String code) {
+        List<String> missingFiles = new ArrayList<>();
+        List<String> includedFiles = TypedefParser.getIncludedFiles(code);
+        for(String include: includedFiles) {
+            try {
+                String path = "cache/" + getName() + "/includedTypes/" + include + ".cfg";
+                Scanner ignored = new Scanner(new File(path));
+                ignored.close();
+            } catch (FileNotFoundException e) {
+                missingFiles.add(include);
+            }
+        }
+        if(missingFiles.isEmpty())
+            return null;
+        String commaSeparated = String.join(", ", missingFiles);
+        return "Uwaga: Plik dołącza nierozpoznane przez CheatBuster pliki nagłówkowe: " + commaSeparated + ". Typy zdefiniowane w tych plikach nie zostaną uwzględnione w procesie porównywania.";
     }
 
     @Override

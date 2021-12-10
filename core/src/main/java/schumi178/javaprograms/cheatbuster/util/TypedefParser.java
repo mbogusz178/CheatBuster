@@ -170,4 +170,23 @@ public class TypedefParser {
         }
         return statements;
     }
+
+    public static List<String> getIncludedFiles(String code) {
+        List<String> includedFiles = new ArrayList<>();
+        StringTokenizer tokenizer = new StringTokenizer(code, "\n");
+        while(tokenizer.hasMoreTokens()) {
+            String line = tokenizer.nextToken().trim();
+            if(isInclude(line)) {
+                if(line.contains("<") && line.contains(">")) {
+                    String fileName = line.substring(line.indexOf('<') + 1, line.indexOf('>'));
+                    includedFiles.add(fileName);
+                } else if(line.chars().filter(c -> c == '\"').count() == 2) {
+                    String fileName = line.substring(line.indexOf('\"') + 1);
+                    fileName = fileName.substring(0, fileName.indexOf('\"'));
+                    includedFiles.add(fileName);
+                }
+            }
+        }
+        return includedFiles;
+    }
 }

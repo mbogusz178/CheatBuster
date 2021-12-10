@@ -1,6 +1,8 @@
 package schumi178.javaprograms.cheatbuster.gui;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -8,9 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -28,6 +34,7 @@ import schumi178.javaprograms.cheatbuster.code.exception.DoesNotCompileException
 import schumi178.javaprograms.cheatbuster.file.StringParser;
 import schumi178.javaprograms.cheatbuster.filechooser.CFileChooserProvider;
 import schumi178.javaprograms.cheatbuster.filechooser.FileChooserProvider;
+import schumi178.javaprograms.cheatbuster.gui.util.ErrorIconProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,9 +43,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class MainScreen implements Initializable {
@@ -49,19 +53,34 @@ public class MainScreen implements Initializable {
     @FXML
     private TextArea leftTextArea;
 
-    private String leftFileName = "";
+    private final StringProperty leftFileName = new SimpleStringProperty("");
 
     @FXML
     private TextArea rightTextArea;
 
-    private String rightFileName = "";
+    private final StringProperty rightFileName = new SimpleStringProperty("");
 
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private ScrollPane statusTextPane;
+    @FXML
+    private ImageView refreshIcon;
+    @FXML
+    private ImageView statusIcon;
+    @FXML
+    private HBox statusBar;
+    @FXML
+    private HBox refreshIconBackground;
+    @FXML
+    private Text statusText;
+
+    private boolean refreshButtonPressed = false;
 
     @FXML
     private Menu languageActions;
 
+    private final ErrorIconProvider provider = ErrorIconProvider.getProvider();
     private final ProgrammingLanguageFactory factory = new ProgrammingLanguageFactory();
 
     private class LanguageActionsListener implements ChangeListener<Boolean> {
@@ -77,7 +96,7 @@ public class MainScreen implements Initializable {
         @Override
         public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
             if(t1) {
-                String fileName = field == CodeTextField.LEFT ? leftFileName : rightFileName;
+                String fileName = field == CodeTextField.LEFT ? leftFileName.get() : rightFileName.get();
                 if(fileName.isEmpty()) {
                     languageActions.setVisible(false);
                 } else {
@@ -113,11 +132,73 @@ public class MainScreen implements Initializable {
         }
     }
 
+    private void updateWindowTitle(String newLeft, String newRight) {
+        String optionalComma = newLeft.equals("") || newRight.equals("") ? "" : ", ";
+        stage.setTitle(newLeft + optionalComma + newRight + " - CheatBuster");
+    }
+
+    private void refreshStatusBar(String leftCode, String rightCode) {
+        ProgrammingLanguage leftLanguage = factory.getLanguage(leftFileName.get());
+        String errorsLeft = null;
+        if(leftLanguage != null)
+            errorsLeft = leftLanguage.getErrors(leftCode);
+        ProgrammingLanguage rightLanguage = factory.getLanguage(rightFileName.get());
+        String errorsRight = null;
+        if(rightLanguage != null)
+            errorsRight = rightLanguage.getErrors(rightCode);
+        StringBuilder message = new StringBuilder();
+        if(errorsLeft != null) {
+            message.append("Plik po lewej zawiera błędy:\n").append(errorsLeft).append("\n\n");
+        }
+        if(errorsRight != null) {
+            message.append("Plik po prawej zawiera błędy:\n").append(errorsRight).append("\n\n");
+        }
+        if(message.toString().equals("")) {
+            statusIcon.setImage(provider.getSuccessIcon());
+            statusText.setText("Gotowy");
+        } else {
+            statusIcon.setImage(provider.getErrorIcon());
+            String result = message.toString();
+            statusText.setText(result.substring(0, result.length() - 2));
+        }
+    }
+
+    @FXML
+    private void refreshButtonPressed() {
+        refreshButtonPressed = true;
+    }
+
+    @FXML
+    private void refreshButtonReleased(MouseEvent event) {
+        boolean hasMovedAway = event.getX() < 0 || event.getY() < 0 || event.getX() >= 32 || event.getY() >= 32;
+        if(refreshButtonPressed && !hasMovedAway) {
+            refreshStatusBar(leftTextArea.getText(), rightTextArea.getText());
+        }
+        refreshButtonPressed = false;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        statusText.wrappingWidthProperty().bind(statusTextPane.widthProperty());
+        statusBar.getStylesheets().add("fxml/statusBar.css");
+        statusBar.getStyleClass().add("hboxOverridden");
+        refreshIconBackground.getStyleClass().add("barButton");
+
+        Tooltip.install(refreshIcon, new Tooltip("Odśwież"));
+        refreshIcon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/repeat-1.png"))));
+        statusIcon.setImage(provider.getSuccessIcon());
+
         factory.registerLanguage(new CLang());
+        HBox.setHgrow(statusTextPane, Priority.ALWAYS);
+
         leftTextArea.focusedProperty().addListener(new LanguageActionsListener(CodeTextField.LEFT));
         rightTextArea.focusedProperty().addListener(new LanguageActionsListener(CodeTextField.RIGHT));
+
+        leftTextArea.textProperty().addListener((observable, oldValue, newValue) -> refreshStatusBar(newValue, rightTextArea.getText()));
+        rightTextArea.textProperty().addListener((observable, oldValue, newValue) -> refreshStatusBar(leftTextArea.getText(), newValue));
+
+        leftFileName.addListener((observable, oldValue, newValue) -> updateWindowTitle(newValue, rightFileName.get()));
+        rightFileName.addListener((observable, oldValue, newValue) -> updateWindowTitle(leftFileName.get(), newValue));
     }
 
     private enum CodeTextField {
@@ -137,14 +218,15 @@ public class MainScreen implements Initializable {
             String text = StringParser.getStringFromFile(file);
             area.setText(text);
             if(field == CodeTextField.LEFT) {
-                leftFileName = file.getName();
+                leftFileName.set(file.getName());
             } else {
-                rightFileName = file.getName();
+                rightFileName.set(file.getName());
             }
         } catch (IOException exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Nie znaleziono pliku albo plik jest uszkodzony.", ButtonType.OK);
             alert.showAndWait();
         }
+        refreshStatusBar(leftTextArea.getText(), rightTextArea.getText());
     }
 
     @FXML
@@ -175,6 +257,26 @@ public class MainScreen implements Initializable {
     }
 
     @FXML
+    public void openHowToAlert() {
+        List<ProgrammingLanguage> languages = factory.getAllLanguages();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.setHeaderText("Jak używać programu?");
+        alert.setTitle("Pomoc");
+
+        StringBuilder contentTextBuilder = new StringBuilder();
+
+        contentTextBuilder.append("Załaduj pliki, które chcesz porównać, poprzez opcję Plik > Otwórz plik 1 i Plik > Otwórz plik 2. Następnie postępuj zgodnie z wytycznymi dla poszczególnych języków programowania:");
+
+        for(ProgrammingLanguage language: languages) {
+            contentTextBuilder.append("\n\n").append(language.getName()).append(":\n").append(language.getHelp());
+        }
+
+        alert.setContentText(contentTextBuilder.toString());
+        alert.showAndWait();
+    }
+
+    @FXML
     private void onOptionsClick() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/optionsScreen.fxml"));
         try {
@@ -183,7 +285,7 @@ public class MainScreen implements Initializable {
             JMetro jMetro = new JMetro(Style.DARK);
             jMetro.setScene(stage.getScene());
             OptionsScreen controller = loader.getController();
-            controller.getHBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
+            controller.getVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -215,21 +317,25 @@ public class MainScreen implements Initializable {
         waitingWindow.show();
 
         CompletableFuture.runAsync(() -> {
-            ProgrammingLanguage lang = factory.getLanguage(leftFileName);
-            if (lang == null || factory.getLanguage(rightFileName) == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Nie rozpoznano języka w jednym z pól. Załaduj plik z kodem, aby kontynuować.", ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd programu");
-                alert.showAndWait();
-                waitingWindow.close();
+            ProgrammingLanguage lang = factory.getLanguage(leftFileName.get());
+            if (lang == null || factory.getLanguage(rightFileName.get()) == null) {
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Nie rozpoznano języka w jednym z pól. Załaduj plik z kodem, aby kontynuować.", ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd programu");
+                    alert.showAndWait();
+                });
                 return;
             }
-            if (lang.getClass() != factory.getLanguage(rightFileName).getClass()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Języki poszczególnych kodów różnią się między sobą.", ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd programu");
-                alert.showAndWait();
-                waitingWindow.close();
+            if (lang.getClass() != factory.getLanguage(rightFileName.get()).getClass()) {
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Języki poszczególnych kodów różnią się między sobą.", ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd programu");
+                    alert.showAndWait();
+                });
                 return;
             }
 
@@ -247,11 +353,13 @@ public class MainScreen implements Initializable {
             try {
                 preprocessedLeftText = lang.preprocess(leftTextArea.getText(), includePaths);
             } catch (DoesNotCompileException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd preprocesora");
-                alert.showAndWait();
-                waitingWindow.close();
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd preprocesora");
+                    alert.showAndWait();
+                });
                 return;
             }
             try {
@@ -282,11 +390,13 @@ public class MainScreen implements Initializable {
             try {
                 listeners = lang.getListeners(preprocessedLeftText, "cache/" + lang.getName() + "/includedTypes");
             } catch (DoesNotCompileException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd preprocesora");
-                alert.showAndWait();
-                waitingWindow.close();
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd preprocesora");
+                    alert.showAndWait();
+                });
                 return;
             }
             int listenersSize = listeners.size();
@@ -332,11 +442,13 @@ public class MainScreen implements Initializable {
             try {
                 preprocessedRightText = lang.preprocess(rightTextArea.getText(), includePaths);
             } catch (DoesNotCompileException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd preprocesora");
-                alert.showAndWait();
-                waitingWindow.close();
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd preprocesora");
+                    alert.showAndWait();
+                });
                 return;
             }
 
@@ -351,11 +463,13 @@ public class MainScreen implements Initializable {
             try {
                 listeners1 = lang.getListeners(preprocessedRightText, "cache/" + lang.getName() + "/includedTypes");
             } catch (DoesNotCompileException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Błąd preprocesora");
-                alert.showAndWait();
-                waitingWindow.close();
+                Platform.runLater(() -> {
+                    waitingWindow.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText("Błąd preprocesora");
+                    alert.showAndWait();
+                });
                 return;
             }
             int listenersSize1 = listeners1.size();
@@ -424,6 +538,7 @@ public class MainScreen implements Initializable {
                 resultScreen.getVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
                 resultScreen.getResultVBox().getStyleClass().add(JMetroStyleClass.BACKGROUND);
                 resultScreen.setFinalRating(result.getFinalResult());
+                resultScreen.setCodeInfo(leftTextArea.getText(), leftFileName.get(), rightTextArea.getText(), rightFileName.get());
                 if(waitingWindowController.willInterrupt()) {
                     return;
                 }

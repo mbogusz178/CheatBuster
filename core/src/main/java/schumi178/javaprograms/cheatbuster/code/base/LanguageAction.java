@@ -1,9 +1,7 @@
 package schumi178.javaprograms.cheatbuster.code.base;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 public class LanguageAction {
     private final String name;

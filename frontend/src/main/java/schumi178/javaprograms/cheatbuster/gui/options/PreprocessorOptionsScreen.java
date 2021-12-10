@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -17,13 +18,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class PreprocessorOptionsScreen implements Initializable, StageController {
+public class PreprocessorOptionsScreen implements Initializable, OptionsChangeProvider {
 
     @FXML
     private ListView<String> includeList;
+    @FXML
+    private VBox content;
 
     private Stage stage;
     private final ObservableList<String> includeItems = FXCollections.observableArrayList();
@@ -58,28 +63,43 @@ public class PreprocessorOptionsScreen implements Initializable, StageController
 
         }
         includeItems.addListener((ListChangeListener<String>) change -> {
-            File file = new File("config/include.cfg");
-            //noinspection ResultOfMethodCallIgnored
-            file.getParentFile().mkdirs();
-            try {
-                PrintWriter writer = new PrintWriter(file);
-                for(String include: includeItems) {
-                    writer.write(include + "\n");
-                }
-                writer.close();
-            } catch (FileNotFoundException ignored) {
-
-            }
+//            File file = new File("config/include.cfg");
+//            //noinspection ResultOfMethodCallIgnored
+//            file.getParentFile().mkdirs();
+//            try {
+//                PrintWriter writer = new PrintWriter(file);
+//                for(String include: includeItems) {
+//                    writer.write(include + "\n");
+//                }
+//                writer.close();
+//            } catch (FileNotFoundException ignored) {
+//
+//            }
         });
     }
 
     @Override
-    public Stage getStage() {
+    public Stage getParentStage() {
         return stage;
     }
 
     @Override
-    public void setStage(Stage stage) {
+    public void setParentStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @Override
+    public String getConfigFileContent() {
+        return String.join("\n", includeItems);
+    }
+
+    @Override
+    public String getConfigFileName() {
+        return "include";
+    }
+
+    @Override
+    public Pane getContent() {
+        return content;
     }
 }

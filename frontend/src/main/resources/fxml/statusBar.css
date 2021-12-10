@@ -1,0 +1,12 @@
+.hboxOverridden {
+    -fx-border-color: #F2F2F2 !important;
+    -fx-border-width: 1 0 0 0 !important;
+}
+
+.barButton:hover {
+    -fx-background-color: #353535 !important;
+}
+
+.barButton:pressed {
+    -fx-background-color: #404040 !important;
+}

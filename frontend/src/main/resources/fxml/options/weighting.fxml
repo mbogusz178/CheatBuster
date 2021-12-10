@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="content" alignment="CENTER_LEFT" hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schumi178.javaprograms.cheatbuster.gui.options.WeightingOptionsScreen">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="220.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="170.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Waga liczby zmiennych w kodzie" />
+      <Label text="Waga liczby typów w kodzie" GridPane.rowIndex="1" />
+      <TextField fx:id="variableWeight" GridPane.columnIndex="1" />
+      <TextField fx:id="typeWeight" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   </children>
+</GridPane>

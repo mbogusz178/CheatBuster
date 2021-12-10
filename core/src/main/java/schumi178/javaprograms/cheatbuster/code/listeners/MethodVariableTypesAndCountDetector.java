@@ -13,6 +13,7 @@ import schumi178.javaprograms.cheatbuster.util.TypedefParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,8 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
 
     private double result;
     private double resultOther;
+    private double typeWeight;
+    private double variableWeight;
 
     private String currentFuncName = "Outside function";
 
@@ -62,6 +65,17 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
                 } else throw new DoesNotCompileException("Błąd składni w dyrektywie #include (wiersz " + count + ")");
             }
             count++;
+        }
+        try {
+            Scanner scanner = new Scanner(new File("config/weights.cfg"));
+            Locale locale = Locale.getDefault();
+            scanner.useLocale(locale);
+            variableWeight = scanner.nextDouble();
+            typeWeight = scanner.nextDouble();
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            typeWeight = 1.5;
+            variableWeight = 3.0;
         }
     }
 
@@ -195,7 +209,6 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
             int count = variableCounts.get(type);
             variableCounts.remove(type);
             variableCounts.put(type, count + 1);
-//            System.out.println(currentFuncName + ": " + ctx.varType().getText() + UtilKt.getPointer(varInitDeclaration) + " " + varInitDeclaration.variableName().getText());
         }
     }
 
@@ -214,7 +227,7 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
 
     @Override
     public String resultToString() {
-        return "Wynik obliczany jest, mnożąc liczbę typów w kodzie przez 1.5, a następnie dodając do wyniku całkowitą liczbę zmiennych pomnożoną przez 3.0.\n" +
+        return "Wynik obliczany jest, mnożąc liczbę typów w kodzie przez " + typeWeight + ", a następnie dodając do wyniku całkowitą liczbę zmiennych pomnożoną przez " + variableWeight + ".\n" +
                 "Wynik po lewej: " + resultOther + "\n" +
                 "Wynik po prawej: " + result + "\n";
     }
@@ -226,7 +239,7 @@ public class MethodVariableTypesAndCountDetector extends CBaseListener {
         for(int typeVariables: variableCounts.values()) {
             totalVariableCount += typeVariables;
         }
-        result = typeCount * 1.5 + totalVariableCount * 3.0;
+        result = typeCount * typeWeight + totalVariableCount * variableWeight;
         return new DoubleWrapper(result);
     }
 

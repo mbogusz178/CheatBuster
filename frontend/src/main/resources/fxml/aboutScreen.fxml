@@ -13,7 +13,7 @@
    <scene>
       <Scene>
          <root>
-            <VBox fx:id="vBox" alignment="CENTER" prefHeight="441.0" prefWidth="300.0">
+            <VBox fx:id="vBox" alignment="CENTER" prefHeight="500.0" prefWidth="300.0">
                <children>
                   <ImageView fx:id="logo" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Label text="CheatBuster" textAlignment="CENTER">
@@ -32,6 +32,10 @@
                   <Label text="Icons made by" textAlignment="CENTER" />
                   <Hyperlink onAction="#openAttributeSite1" text="Freepik" textAlignment="CENTER" />
                   <Label text="from" textAlignment="CENTER" wrapText="true" />
+                  <Hyperlink onAction="#openFlaticonSite" text="www.flaticon.com" />
+                  <Label text="Icons made by" />
+                  <Hyperlink onAction="#openAttributeSite2" text="Smashicons" />
+                  <Label text="from" />
                   <Hyperlink onAction="#openFlaticonSite" text="www.flaticon.com" />
                </children>
                <padding>

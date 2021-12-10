@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 public interface ProgrammingLanguage {
     Lexer getLexer(CharStream code);
     String getName();
+    String getHelp();
     List<LanguageAction> getActions();
     String getFileExtension();
     CompileReadyParser getParser(TokenStream tokenStream);
@@ -24,5 +25,6 @@ public interface ProgrammingLanguage {
     default String preprocess(String code, List<String> includePaths) throws DoesNotCompileException {
         return code;
     }
+    String getErrors(String code);
     AssessmentResult assess(List<ParseTreeListener> filledListenersFirst, List<ParseTreeListener> filledListenersSecond);
 }
