@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.stage.Stage?>
+
+<Stage resizable="false" title="O programie - CheatBuster" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schumi178.javaprograms.cheatbuster.gui.AboutScreen">
+   <scene>
+      <Scene>
+         <root>
+            <VBox fx:id="vBox" alignment="CENTER" prefHeight="500.0" prefWidth="300.0">
+               <children>
+                  <ImageView fx:id="logo" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label text="CheatBuster" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="31.0" />
+                     </font>
+                  </Label>
+                  <Label text="Aplikacja autorstwa: Michał Bogusz, napisana w ramach pracy inżynierskiej" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Icons made by" textAlignment="CENTER" />
+                  <Hyperlink onAction="#openAttributeSite1" text="Freepik" textAlignment="CENTER" />
+                  <Label text="from" textAlignment="CENTER" wrapText="true" />
+                  <Hyperlink onAction="#openFlaticonSite" text="www.flaticon.com" />
+                  <Label text="Icons made by" />
+                  <Hyperlink onAction="#openAttributeSite2" text="Smashicons" />
+                  <Label text="from" />
+                  <Hyperlink onAction="#openFlaticonSite" text="www.flaticon.com" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </root>
+      </Scene>
+   </scene>
+</Stage>
